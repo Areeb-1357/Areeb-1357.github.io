@@ -505,13 +505,7 @@
             display: block;
         }
 
-        .projects-wrapper {
-            margin-top: 36px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            align-items: start;
-        }
+        .projects-wrapper { margin-top: 28px; }
         .projects-wrapper-offset {
             margin-left: 8%;
             position: relative;
@@ -542,13 +536,10 @@
             position: relative;
             background: var(--surface);
             border: 1px solid var(--surface-border);
-            padding: 24px;
+            padding: 24px 28px;
             border-radius: 8px;
             overflow: hidden;
             transition: border-color 0.2s;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
         }
         .project-neural-card::before {
             content: "";
@@ -568,39 +559,38 @@
         .project-subtitle {
             font-family: var(--font-code);
             color: var(--pink);
-            font-size: 10px;
+            font-size: 11px;
             letter-spacing: 1.5px;
             margin-bottom: 10px;
             display: inline-block;
             text-transform: uppercase;
             background: rgba(244, 114, 182, 0.08);
-            padding: 3px 8px;
+            padding: 3px 9px;
             border-radius: 4px;
             border: 1px solid rgba(244, 114, 182, 0.2);
         }
         .project-neural-card h3 {
             font-family: var(--font-display);
-            font-size: 18px;
+            font-size: clamp(18px, 2.2vw, 22px);
             margin-bottom: 10px;
             color: var(--text-main);
-            letter-spacing: -0.3px;
-            line-height: 1.3;
+            letter-spacing: -0.5px;
         }
         .project-neural-card p {
             color: var(--text-sub);
-            font-size: 13px;
+            max-width: 680px;
+            font-size: 13.5px;
             line-height: 1.6;
             margin-bottom: 16px;
-            flex-grow: 1;
         }
         .neural-terminal-block {
             background: #090c14;
             border: 1px dashed rgba(56, 189, 248, 0.25);
-            padding: 12px 14px;
+            padding: 10px 16px;
             border-radius: 6px;
             font-family: var(--font-code);
-            font-size: 11px;
-            line-height: 1.7;
+            font-size: 12px;
+            line-height: 1.6;
             color: var(--cyan);
             position: relative;
         }
@@ -609,7 +599,6 @@
         .neural-terminal-block span.green-txt { color: var(--green); }
 
         .projects-footer-note {
-            grid-column: 1 / -1;
             text-align: right;
             font-family: var(--font-code);
             font-size: 11px;
@@ -905,9 +894,26 @@
                     </div>
                 </div>
 
-                <div class="project-neural-card">
+                <div class="project-neural-card" style="margin-top: 20px;">
+                    <span class="project-subtitle">Shipped &amp; deployed</span>
+                    <h3>🧮 Scientific Calculator — because basic math is for basic apps</h3>
+                    <p>
+                        A browser-based scientific calculator that goes beyond addition and subtraction — trig functions, logs, exponents, and all the buttons a real calculator would judge you for forgetting how to use. Built with clean HTML, CSS, and JavaScript, with a responsive UI that works as smoothly on a phone as it does on a desktop. No backend, no dependencies, just a keypad that actually does the math.
+                    </p>
+                    <div class="neural-terminal-block">
+                        <div>&gt; <span class="pink-txt">status:</span> deployed = <span class="green-txt">true</span></div>
+                        <div>&gt; <span class="violet-txt">stack:</span> HTML · CSS · JavaScript</div>
+                        <div>&gt; <span class="pink-txt">verdict:</span> <span class="violet-txt">"finally, sin(x) without the TI-84"</span><span class="blinking-dot"></span></div>
+                    </div>
+                    <div style="margin-top: 16px; display: flex; gap: 12px; flex-wrap: wrap;">
+                        <a href="https://areeb-1357.github.io/Scientific-Calculator-/" target="_blank" rel="noopener" class="btn btn-secondary">Try it Live ↗</a>
+                        <a href="https://github.com/Areeb-1357/Scientific-Calculator-" target="_blank" rel="noopener" class="btn btn-secondary">View on GitHub ↗</a>
+                    </div>
+                </div>
+
+                <div class="project-neural-card" style="margin-top: 20px;">
                     <span class="project-subtitle">Something cool is coming.</span>
-                    <h3>🍳 Project #2: Still Cooking in the Neural Lab</h3>
+                    <h3>🍳 Project #3: Still Cooking in the Neural Lab</h3>
                     <p>
                         Currently 0% deployed, but 100% busy breaking things on localhost! I'm currently spending my time absorbing concepts, making bugs, fixing bugs, and learning the ropes. Real projects are being assembled right now. (hehe xD)
                     </p>
