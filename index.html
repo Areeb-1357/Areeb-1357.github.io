@@ -404,6 +404,14 @@
             color: var(--text-main);
         }
 
+        .section-subtitle {
+            margin-top: 10px;
+            color: var(--text-sub);
+            font-size: 14.5px;
+            line-height: 1.6;
+            max-width: 640px;
+        }
+
         .glass-card {
             background: var(--surface);
             backdrop-filter: blur(12px);
@@ -857,15 +865,18 @@
         </section>
 
         <section id="projects" class="section reveal">
-            <div class="section-label">03 // PORTFOLIO</div>
-            <h2 class="section-title">Projects</h2>
+            <div class="section-label">03 // MINI PROJECTS</div>
+            <h2 class="section-title">Mini Projects</h2>
+            <p class="section-subtitle">
+                Small, self-contained builds I made to actually learn the fundamentals — nothing that needed a system design interview, but each one taught me something real. Bigger, full-stack projects will get their own section once they exist.
+            </p>
 
             <div class="projects-wrapper">
                 <div class="project-neural-card">
-                    <span class="project-subtitle">Shipped &amp; deployed</span>
-                    <h3>💸 Expense Tracker — a CLI that judges your snack budget</h3>
+                    <span class="project-subtitle">Mini project · shipped</span>
+                    <h3>💸 Expense Tracker</h3>
                     <p>
-                        A terminal app that watches you casually drop ₹250 on "snacks" and logs it forever, no takebacks. Add expenses, view them in a neat table, get a category breakdown of your poor decisions, and delete the evidence if you dare. Pure Python, data lives in a CSV — no database, no drama.
+                        A command-line tool for logging day-to-day spending — add an expense, view everything in a clean table, and get a category-wise breakdown of where the money actually went. Deliberately kept small: no database, no frameworks, just core Python and a CSV file, built to properly understand the language before reaching for anything heavier.
                     </p>
                     <div class="neural-terminal-block">
                         <div>&gt; <span class="pink-txt">status:</span> deployed = <span class="green-txt">true</span></div>
@@ -879,10 +890,10 @@
                 </div>
 
                 <div class="project-neural-card">
-                    <span class="project-subtitle">Shipped &amp; deployed</span>
-                    <h3>🧮 Scientific Calculator — because basic math is for basic apps</h3>
+                    <span class="project-subtitle">Mini project · shipped</span>
+                    <h3>🧮 Scientific Calculator</h3>
                     <p>
-                        A browser-based scientific calculator that goes beyond addition and subtraction — trig functions, logs, exponents, and every button a real calculator would judge you for forgetting. Clean HTML, CSS, and JS, responsive from phone to desktop. No backend, no dependencies, just a keypad that does the math.
+                        A browser-based calculator that goes past basic arithmetic — trig functions, logs, exponents, and the usual scientific-calculator lineup. Built with plain HTML, CSS and JavaScript, no libraries involved, mainly as an exercise in DOM manipulation and getting the function logic actually correct (harder than it sounds when sin(x) is involved).
                     </p>
                     <div class="neural-terminal-block">
                         <div>&gt; <span class="pink-txt">status:</span> deployed = <span class="green-txt">true</span></div>
@@ -896,10 +907,10 @@
                 </div>
 
                 <div class="project-neural-card">
-                    <span class="project-subtitle">Shipped &amp; deployed</span>
-                    <h3>🧠 Quiz Quest — trivia that keeps receipts</h3>
+                    <span class="project-subtitle">Mini project · shipped</span>
+                    <h3>🧠 Quiz Quest</h3>
                     <p>
-                        A browser quiz app that fires questions at you round after round and quietly tallies every wrong answer for later. Instant scoring, clean question flow, and a results screen that has zero chill about your final percentage. Built to be fast, responsive, and replayable when you inevitably want a rematch.
+                        A browser quiz app that asks questions round after round, tracks the score, and shows a results screen with zero sympathy for a bad run. Built with HTML, CSS and JavaScript to practice state handling and UI flow — small in scope, but the logic works exactly as intended, which is more than most first projects can say.
                     </p>
                     <div class="neural-terminal-block">
                         <div>&gt; <span class="pink-txt">status:</span> deployed = <span class="green-txt">true</span></div>
