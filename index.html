@@ -425,6 +425,66 @@ a:focus-visible,.btn:focus-visible,.c-card:focus-visible,.net-btn:focus-visible{
   .pill i,.cur,.ticker-in,.avatar svg,.ld-name{animation:none!important}
   .rv{opacity:1!important;transform:none!important;transition:none!important}
 }
+
+/* ---------- featured game card ---------- */
+.proj.feat{grid-column:1/-1;display:grid;grid-template-columns:1.2fr .8fr;gap:24px;padding:20px 22px}
+.feat-l{display:flex;flex-direction:column;min-width:0}
+.feat h3{font-size:22px;letter-spacing:-.5px;margin-bottom:8px}
+.feat p{font-size:13.5px;line-height:1.65}
+.feat .meta{font-size:11px}
+.feat-r{position:relative;z-index:5;display:flex;flex-direction:column;gap:12px;min-width:0}
+.ctl{background:var(--panel);border:1px solid var(--line);border-radius:9px;overflow:hidden}
+.ctl-body{padding:12px 14px;font-family:var(--code);font-size:11.5px;line-height:2.1}
+.ctl-body div{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.ctl-body i{font-style:normal;color:var(--text-3);width:58px;flex:0 0 58px}
+.ctl-body b{font-weight:400;color:var(--text-2)}
+.ctl kbd{font-family:var(--code);font-size:10.5px;color:var(--cyan);background:rgba(56,189,248,.08);
+  border:1px solid rgba(56,189,248,.28);border-bottom-width:2px;border-radius:4px;padding:0 6px;margin-right:3px}
+.feat-tags{display:flex;flex-wrap:wrap;gap:8px}
+.feat-tags span{font-family:var(--code);font-size:11px;color:var(--text-2);background:rgba(167,139,250,.07);
+  border:1px solid rgba(167,139,250,.2);border-radius:999px;padding:5px 12px}
+@media (max-width:900px){.proj.feat{grid-template-columns:1fr}}
+
+/* ---------- SECRET THEME: type "areeb" ---------- */
+#flipFx{position:fixed;inset:0;z-index:9990;pointer-events:none;display:grid;place-items:center;
+  opacity:0;visibility:hidden;font-family:var(--code);font-size:13px;letter-spacing:1px}
+#flipFx.go{visibility:visible;animation:flipfx .8s ease-in-out}
+#flipFx.light{background:#f4efe6;color:#0f172a}
+#flipFx.dark{background:#04060b;color:#38bdf8}
+@keyframes flipfx{0%{opacity:0}38%{opacity:1}62%{opacity:1}100%{opacity:0}}
+
+html[data-theme="flip"]{
+  color-scheme:light;
+  --void:#f4efe6;
+  --surface:linear-gradient(158deg,rgba(255,255,255,.96) 0%,rgba(250,245,236,.96) 100%);
+  --surface-hot:linear-gradient(158deg,#ffffff 0%,rgba(252,247,238,.98) 100%);
+  --panel:linear-gradient(160deg,rgba(255,255,255,.95),rgba(248,243,233,.95));
+  --line:rgba(30,41,59,.13);
+  --line-hot:rgba(2,132,199,.5);
+  --text:#0f172a;
+  --text-2:#3b4a60;
+  --text-3:#6b7789;
+  --cyan:#0284c7;
+  --violet:#7c3aed;
+  --pink:#db2777;
+  --green:#059669;
+  --amber:#d97706;
+}
+html[data-theme="flip"] ::selection{background:var(--cyan);color:#fff}
+html[data-theme="flip"] .nav{background:rgba(244,239,230,.94)}
+html[data-theme="flip"] .ticker{background:rgba(255,255,255,.55)}
+html[data-theme="flip"] .bg-vignette{background:radial-gradient(ellipse 110% 80% at 50% 40%,transparent 50%,rgba(120,100,70,.14) 100%)}
+html[data-theme="flip"] .bg-grid{background-image:linear-gradient(rgba(30,41,59,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(30,41,59,.06) 1px,transparent 1px)}
+html[data-theme="flip"] #field{opacity:.9}
+html[data-theme="flip"] .win-bar{background:rgba(30,41,59,.04)}
+html[data-theme="flip"] .btn-2{border-color:rgba(30,41,59,.22)}
+html[data-theme="flip"] .btn-2:hover{border-color:rgba(30,41,59,.5)}
+html[data-theme="flip"] .btn-1:hover,html[data-theme="flip"] .net-btn:hover{color:#fff}
+html[data-theme="flip"] .meter{background:rgba(30,41,59,.09)}
+html[data-theme="flip"] .next{background:rgba(30,41,59,.03);border-color:rgba(30,41,59,.2)}
+html[data-theme="flip"] .next:hover{border-color:var(--line-hot)}
+html[data-theme="flip"] .proj .meta{background:rgba(255,255,255,.75);border-color:rgba(2,132,199,.3)}
+html[data-theme="flip"] .badge,html[data-theme="flip"] .orb,html[data-theme="flip"] .term{box-shadow:0 10px 26px rgba(60,50,30,.16)}
 </style>
 </head>
 
@@ -481,6 +541,7 @@ a:focus-visible,.btn:focus-visible,.c-card:focus-visible,.net-btn:focus-visible{
     <li><a class="lk" href="#stack">stack</a></li>
     <li><a class="lk" href="#lab">lab</a></li>
     <li><a class="lk" href="#path">path</a></li>
+    <li><a class="lk" href="#games">games</a></li>
     <li><a class="lk" href="#work">projects</a></li>
     <li><a class="lk" href="#contact">contact</a></li>
   </ul></nav>
@@ -506,7 +567,7 @@ a:focus-visible,.btn:focus-visible,.c-card:focus-visible,.net-btn:focus-visible{
       </div>
 
       <div class="stats">
-        <div class="stat s1"><b data-count="3">0</b><span>projects shipped</span></div>
+        <div class="stat s1"><b data-count="4">0</b><span>projects shipped</span></div>
         <div class="stat s2"><b data-count="4">0</b><span>core technologies</span></div>
         <div class="stat s3"><b data-text="∞">∞</b><span>still cooking</span></div>
         <div class="stat s4"><b data-text="∞">∞</b><span>bugs fixed</span></div>
@@ -557,7 +618,7 @@ a:focus-visible,.btn:focus-visible,.c-card:focus-visible,.net-btn:focus-visible{
               <div><i>whoami</i><b class="ac">areeb basheer</b></div>
               <div><i>role</i><b>aiml student</b></div>
               <div><i>focus</i><b>ai · ml · web</b></div>
-              <div><i>shipped</i><b>3 mini projects</b></div>
+              <div><i>shipped</i><b>3 mini projects + 1 game</b></div>
               <div><i>status</i><b class="on">learning &amp; building</b></div>
             </div>
           </div>
@@ -759,8 +820,57 @@ a:focus-visible,.btn:focus-visible,.c-card:focus-visible,.net-btn:focus-visible{
     </div>
   </section>
 
+  <section id="games" class="sec rv">
+    <div class="sec-lbl">05 / games</div>
+    <h2 class="sec-title">Now with enemies</h2>
+    <p class="sec-sub">The first build with a real game loop, live input and a difficulty curve that is not on my side.</p>
+
+    <div class="work-grid">
+      <div class="proj feat">
+        <div class="feat-l">
+          <span class="kind">shipped · game</span>
+          <h3>🚀 Neon Drift</h3>
+          <p>A fast-paced neon arcade survival shooter. You pilot a glowing ship through waves of enemies, dodge incoming fire, and try to outlast formations that get faster and meaner every stage.</p>
+          <p>Aim with the mouse, dash out of trouble, collect energy orbs, and pick upgrades between stages that shape your build. Runs are short, replayable, and dangerously easy to restart.</p>
+          <div class="meta">
+            <div>&gt; <span class="p">stack:</span> html · css · js · node · vercel</div>
+            <div>&gt; <span class="p">mode:</span> survival · waves · upgrades</div>
+            <div>&gt; <span class="p">verdict:</span> <span class="v">"one more run" (a lie)</span></div>
+          </div>
+          <div class="acts">
+            <a href="https://neon-drift-ten.vercel.app/" target="_blank" rel="noopener">play live ↗</a>
+            <a href="https://github.com/Areeb-1357/Neon-Drift" target="_blank" rel="noopener">code ↗</a>
+          </div>
+        </div>
+
+        <div class="feat-r">
+          <div class="ctl">
+            <div class="win-bar">
+              <span class="tdot tr"></span><span class="tdot ty"></span><span class="tdot tg"></span>
+              <em>CONTROLS.cfg</em>
+            </div>
+            <div class="ctl-body">
+              <div><i>move</i><b><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> or arrows</b></div>
+              <div><i>aim</i><b>mouse</b></div>
+              <div><i>shoot</i><b>left click</b></div>
+              <div><i>dash</i><b><kbd>Shift</kbd></b></div>
+              <div><i>special</i><b>keyboard shortcuts</b></div>
+            </div>
+          </div>
+          <div class="feat-tags">
+            <span>neon cyberpunk visuals</span>
+            <span>escalating waves</span>
+            <span>multiple enemy types</span>
+            <span>upgrade builds</span>
+            <span>energy orbs</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section id="work" class="sec rv">
-    <div class="sec-lbl">05 / projects</div>
+    <div class="sec-lbl">06 / projects</div>
     <h2 class="sec-title">Mini projects</h2>
     <p class="sec-sub">Small, self-contained builds I made to actually learn the fundamentals. Bigger full-stack projects get their own section once they exist.</p>
 
@@ -821,7 +931,7 @@ a:focus-visible,.btn:focus-visible,.c-card:focus-visible,.net-btn:focus-visible{
   </section>
 
   <section id="contact" class="sec rv">
-    <div class="sec-lbl">06 / contact</div>
+    <div class="sec-lbl">07 / contact</div>
     <h2 class="sec-title">Connect with me</h2>
     <div class="c-head">let's build something</div>
     <p class="c-note">Always up for learning, experimenting, collaborating, or just talking about cool tech.</p>
@@ -1346,7 +1456,7 @@ function initNet(){
       else if (e.w > .62) lit.push(e);
       else dim.push(e);
     }
-    strokeEdges(dim, 'rgba(148,170,205,.09)');
+    strokeEdges(dim, window.__flip ? 'rgba(30,41,59,.14)' : 'rgba(148,170,205,.09)');
     strokeEdges(lit, 'rgba(56,189,248,.16)');
     strokeEdges(hot, 'rgba(244,114,182,.55)');
 
@@ -1365,7 +1475,7 @@ function initNet(){
       var x = a.x + (b.x-a.x)*e2, y = a.y + (b.y-a.y)*e2;
       ctx.moveTo(x+2.6, y); ctx.arc(x, y, 2.6, 0, 6.283);
     }
-    ctx.fillStyle = 'rgba(226,240,255,.9)'; ctx.fill();
+    ctx.fillStyle = window.__flip ? 'rgba(15,23,42,.85)' : 'rgba(226,240,255,.9)'; ctx.fill();
 
     /* neurons */
     for (var l = 0; l < cols.length; l++){
@@ -1513,6 +1623,44 @@ function initReveal(){
   t.forEach(function(e){ io.observe(e); });
 }
 
+/* ============================================================
+   SECRET THEME FLIP - type "areeb" anywhere
+   ============================================================ */
+function initSecretTheme(){
+  var CODE = 'areeb', buf = '', busy = false;
+  var root = document.documentElement;
+  var fx = document.createElement('div');
+  fx.id = 'flipFx';
+  fx.innerHTML = '<span></span>';
+  document.body.appendChild(fx);
+  var label = fx.firstChild;
+  var meta = document.querySelector('meta[name="theme-color"]');
+
+  function apply(on){
+    if (on) root.setAttribute('data-theme', 'flip');
+    else root.removeAttribute('data-theme');
+    window.__flip = on;
+    if (meta) meta.setAttribute('content', on ? '#f4efe6' : '#04060b');
+  }
+  function flip(){
+    if (busy) return; busy = true;
+    var on = !window.__flip;
+    if (RM){ apply(on); busy = false; return; }
+    label.textContent = on ? '> theme.flip() // lights on' : '> theme.flip() // lights off';
+    fx.className = 'go ' + (on ? 'light' : 'dark');
+    setTimeout(function(){ apply(on); }, 330);
+    setTimeout(function(){ fx.className = ''; busy = false; }, 800);
+    if (window.burst) window.burst(innerWidth/2, innerHeight/2, 24);
+  }
+  document.addEventListener('keydown', function(e){
+    if (e.ctrlKey || e.metaKey || e.altKey || !e.key || e.key.length !== 1) return;
+    var t = e.target;
+    if (t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))) return;
+    buf = (buf + e.key.toLowerCase()).slice(-CODE.length);
+    if (buf === CODE){ buf = ''; flip(); }
+  });
+}
+
 function scramble(el, text, ms){
   var pool = '!<>-_\\/[]{}=+*^?#01AXYZ$%&';
   var t0 = performance.now(), n = text.length;
@@ -1535,6 +1683,7 @@ function start(){
   initTicker();
   initReveal();
   initTerminal();
+  initSecretTheme();
 
   if (RM){
     document.querySelectorAll('#heroName .ln').forEach(function(el){ el.textContent = el.getAttribute('data-text'); });
