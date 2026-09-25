@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>areeb — portfolio</title>
+<title>areeb — learn · break · build · repeat</title>
 <meta name="description" content="Areeb Basheer — AIML student, web dev & cybersecurity enthusiast">
 
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%23050810'/%3E%3Ctext x='50' y='70' font-size='58' text-anchor='middle' fill='%2338bdf8' font-family='monospace'%3Ea%3C/text%3E%3C/svg%3E">
 
-<meta property="og:title" content="areeb — portfolio">
+<meta property="og:title" content="areeb — learn · break · build · repeat">
 <meta property="og:description" content="Areeb Basheer — AIML student, web dev & cybersecurity enthusiast">
 <meta property="og:type" content="website">
 <meta name="theme-color" content="#04060b">
@@ -103,11 +103,28 @@ body.lock{overflow:hidden;height:100vh}
    BACKGROUND
    ============================================================ */
 .bg{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
-.bg-wash{position:absolute;inset:-20%;
+.bg-wash{position:absolute;inset:-20%;will-change:transform;
+  animation:washShift 32s ease-in-out infinite;
   background:
     radial-gradient(48% 42% at 12% 4%,  rgba(167,139,250,.16), transparent 62%),
     radial-gradient(52% 46% at 92% 88%, rgba(56,189,248,.15),  transparent 62%),
     radial-gradient(38% 34% at 78% 12%, rgba(244,114,182,.07), transparent 64%)}
+@keyframes washShift{
+  0%{transform:translate3d(0,0,0) scale(1)}
+  50%{transform:translate3d(-2%,1.5%,0) scale(1.035)}
+  100%{transform:translate3d(1.5%,-1%,0) scale(1)}
+}
+.bg-orbs{position:absolute;inset:0;overflow:hidden}
+.orb-glow{position:absolute;border-radius:50%;filter:blur(64px);will-change:transform}
+.orb-glow.o1{width:360px;height:360px;left:6%;top:10%;opacity:.32;
+  background:radial-gradient(circle,rgba(56,189,248,.6),transparent 70%);animation:orbFloat1 23s ease-in-out infinite}
+.orb-glow.o2{width:300px;height:300px;right:8%;top:52%;opacity:.28;
+  background:radial-gradient(circle,rgba(167,139,250,.55),transparent 70%);animation:orbFloat2 27s ease-in-out infinite}
+.orb-glow.o3{width:230px;height:230px;left:44%;bottom:4%;opacity:.24;
+  background:radial-gradient(circle,rgba(244,114,182,.45),transparent 70%);animation:orbFloat3 31s ease-in-out infinite}
+@keyframes orbFloat1{0%,100%{transform:translate3d(0,0,0)}50%{transform:translate3d(44px,32px,0)}}
+@keyframes orbFloat2{0%,100%{transform:translate3d(0,0,0)}50%{transform:translate3d(-38px,-26px,0)}}
+@keyframes orbFloat3{0%,100%{transform:translate3d(0,0,0)}50%{transform:translate3d(26px,-38px,0)}}
 .bg-grid{position:absolute;inset:0;
   background-image:
     linear-gradient(rgba(120,170,220,.045) 1px,transparent 1px),
@@ -115,8 +132,13 @@ body.lock{overflow:hidden;height:100vh}
   background-size:44px 44px;
   mask-image:radial-gradient(ellipse 120% 90% at 50% 30%,#000 35%,transparent 85%);
   -webkit-mask-image:radial-gradient(ellipse 120% 90% at 50% 30%,#000 35%,transparent 85%)}
+.bg-scan{position:absolute;left:0;right:0;top:-40%;height:42%;will-change:transform;
+  background:linear-gradient(180deg,transparent,rgba(56,189,248,.13) 48%,rgba(167,139,250,.15) 52%,transparent);
+  animation:scanSweep 11s linear infinite}
+@keyframes scanSweep{0%{transform:translateY(-20%)}100%{transform:translateY(340%)}}
 .bg-vignette{position:absolute;inset:0;
   background:radial-gradient(ellipse 110% 80% at 50% 40%,transparent 45%,rgba(2,4,8,.75) 100%)}
+#matrixbg{position:absolute;inset:0;width:100%;height:100%;opacity:.13;mix-blend-mode:screen}
 #field{position:absolute;inset:0;width:100%;height:100%;opacity:.55}
 .grain{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.04;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E")}
@@ -183,6 +205,7 @@ header,main,footer{position:relative;z-index:10}
 .stat span{font-family:var(--code);font-size:10px;color:var(--text-3);display:block;margin-top:7px;
   letter-spacing:.3px}
 .s1 b{color:var(--cyan)}.s2 b{color:var(--violet)}.s3 b{color:var(--pink)}.s4 b{color:var(--green)}
+.stat b.sym{font-size:22px;line-height:24px;display:block;animation:pulse 2.4s ease-in-out infinite alternate}
 
 .hero-r{position:relative;width:100%;height:472px;display:grid;place-items:center}
 #orbit{position:absolute;inset:0;width:100%;height:100%;touch-action:none;cursor:grab}
@@ -422,7 +445,7 @@ a:focus-visible,.btn:focus-visible,.c-card:focus-visible,.net-btn:focus-visible{
   html{scroll-behavior:auto}
   #loader{display:none}
   .c-dot,.c-ring,#field,#spark,#orbit{display:none}
-  .pill i,.cur,.ticker-in,.avatar svg,.ld-name{animation:none!important}
+  .pill i,.cur,.ticker-in,.avatar svg,.ld-name,.bg-wash,.orb-glow,.bg-scan{animation:none!important}
   .rv{opacity:1!important;transform:none!important;transition:none!important}
 }
 
@@ -524,8 +547,15 @@ html[data-theme="flip"] .badge,html[data-theme="flip"] .orb,html[data-theme="fli
 
 <div class="bg">
   <div class="bg-wash"></div>
+  <div class="bg-orbs">
+    <div class="orb-glow o1"></div>
+    <div class="orb-glow o2"></div>
+    <div class="orb-glow o3"></div>
+  </div>
   <div class="bg-grid"></div>
+  <canvas id="matrixbg"></canvas>
   <canvas id="field"></canvas>
+  <div class="bg-scan"></div>
   <div class="bg-vignette"></div>
 </div>
 <div class="grain"></div>
@@ -566,12 +596,6 @@ html[data-theme="flip"] .badge,html[data-theme="flip"] .orb,html[data-theme="fli
         <a href="https://github.com/Areeb-1357" target="_blank" rel="noopener" class="btn btn-2">GitHub ↗</a>
       </div>
 
-      <div class="stats">
-        <div class="stat s1"><b data-count="4">0</b><span>projects shipped</span></div>
-        <div class="stat s2"><b data-count="4">0</b><span>core technologies</span></div>
-        <div class="stat s3"><b data-text="∞">∞</b><span>still cooking</span></div>
-        <div class="stat s4"><b data-text="∞">∞</b><span>bugs fixed</span></div>
-      </div>
     </div>
 
     <div class="hero-r">
@@ -1021,6 +1045,46 @@ function initField(){
     ctx.beginPath();
     for (var k = 0; k < N; k++) ctx.rect(pts[k].x-1, pts[k].y-1, 2, 2);
     ctx.fillStyle = 'rgba(56,189,248,.45)'; ctx.fill();
+  });
+}
+
+/* ============================================================
+   AMBIENT MATRIX RAIN — sparse, screen-blended, shares the main rAF loop
+   ============================================================ */
+function initMatrixBG(){
+  var cv = document.getElementById('matrixbg'); if (!cv) return;
+  var ctx = cv.getContext('2d');
+  var W = 0, H = 0, DPR = Math.min(window.devicePixelRatio || 1, 1.2);
+  var FS = 20, cols = 0, drops = [], tint = [];
+  var COL = ['#38bdf8','#a78bfa','#f472b6','#34d399'];
+  var CH = '01<>[]{}#$%&/\\アカサタナ';
+  function size(){
+    W = window.innerWidth; H = window.innerHeight;
+    cv.width = Math.round(W*DPR); cv.height = Math.round(H*DPR);
+    ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+    cols = Math.max(1, Math.ceil(W/FS));
+    drops.length = 0; tint.length = 0;
+    for (var i = 0; i < cols; i++){ drops.push(Math.random()*-50); tint.push(COL[(Math.random()*COL.length)|0]); }
+    ctx.font = FS + 'px monospace';
+  }
+  size();
+  var rt; window.addEventListener('resize', function(){ clearTimeout(rt); rt = setTimeout(size, 180); });
+  var acc = 0;
+  addJob(function(now, dt){
+    acc += dt; if (acc < 58) return; acc = 0;
+    ctx.fillStyle = 'rgba(4,6,11,.14)';
+    ctx.fillRect(0, 0, W, H);
+    for (var i = 0; i < cols; i++){
+      var y = drops[i]*FS;
+      if (y > 0 && y < H+FS){
+        ctx.globalAlpha = .5;
+        ctx.fillStyle = tint[i];
+        ctx.fillText(CH[(Math.random()*CH.length)|0], i*FS, y);
+      }
+      if (y > H && Math.random() > .978) drops[i] = 0;
+      drops[i] += .5;
+    }
+    ctx.globalAlpha = 1;
   });
 }
 
@@ -1692,6 +1756,7 @@ function start(){
 
   initCursor();
   initField();
+  initMatrixBG();
   initSparks();
   initOrbit();
   initNet();
