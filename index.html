@@ -8,7 +8,7 @@
 
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%23050810'/%3E%3Ctext x='50' y='70' font-size='58' text-anchor='middle' fill='%2338bdf8' font-family='monospace'%3Ea%3C/text%3E%3C/svg%3E">
 
-<meta property="og:title" content="areeb — learn · break · build · repeat">
+<meta property="og:title"s content="areeb — learn · break · build · repeat">
 <meta property="og:description" content="Areeb Basheer — AIML student, web dev & cybersecurity enthusiast">
 <meta property="og:type" content="website">
 <meta name="theme-color" content="#04060b">
@@ -424,6 +424,20 @@ a:focus-visible,.btn:focus-visible,.c-card:focus-visible,.net-btn:focus-visible{
   .about-grid{grid-template-columns:1fr}
   .hero{grid-template-columns:1fr .9fr}
 }
+.tl{position:relative;padding:14px 16px 12px 18px;font-family:var(--code)}
+.tl::before{content:'';position:absolute;left:78px;top:22px;bottom:26px;width:1px;
+  background:linear-gradient(180deg,var(--cyan),var(--violet),var(--pink));opacity:.45}
+.tl-i{position:relative;display:grid;grid-template-columns:52px 1fr;gap:26px;padding:7px 0}
+.tl-i::before{content:'';position:absolute;left:56px;top:13px;width:9px;height:9px;border-radius:50%;
+  background:var(--cyan);box-shadow:0 0 8px rgba(56,189,248,.6)}
+.tl-i:nth-child(2)::before{background:var(--violet);box-shadow:0 0 8px rgba(167,139,250,.6)}
+.tl-i:nth-child(3)::before{background:var(--pink);box-shadow:0 0 8px rgba(244,114,182,.6)}
+.tl-i:nth-child(4)::before{background:var(--green);box-shadow:0 0 8px rgba(52,211,153,.6)}
+.tl-i.goal::before{background:var(--amber);box-shadow:0 0 10px rgba(251,191,36,.7)}
+.tl-i .d{font-size:10.5px;color:var(--text-3);text-transform:uppercase;letter-spacing:.5px;padding-top:2px}
+.tl-i b{display:block;font-weight:500;font-size:12px;color:var(--text)}
+.tl-i small{display:block;font-size:10.5px;color:var(--text-2);margin-top:2px}
+.tl-i.goal b{color:var(--amber)}
 @media (max-width:900px){
   .c-dot,.c-ring{display:none}
   .nav ul{display:none}
@@ -902,10 +916,52 @@ html[data-theme="flip"] .badge,html[data-theme="flip"] .orb,html[data-theme="fli
   </section>
 
   <section id="work" class="sec rv">
-    <div class="sec-lbl">06 / projects</div>
-    <h2 class="sec-title"> Mini Projects</h2>
-    <p class="sec-sub">Small, self-contained builds I made to actually learn the fundamentals. Bigger full-stack projects get their own section once they exist.</p>
-    
+         <div class="sec-lbl">06 / projects</div>
+    <h2 class="sec-title">Projects</h2>
+    <p class="sec-sub">One agent that actually remembers things, and a shelf of small builds I made to learn the fundamentals.</p>
+
+    <div class="work-grid">
+      <div class="proj feat agent">
+        <div class="feat-l">
+          <span class="kind">flagship · ai agent</span>
+          <h3>🧠 Deal Command Center</h3>
+          <p>A memory-first sales copilot. It turns every call, email and negotiation into durable deal intelligence, so the next brief reflects the whole history instead of just the latest note.</p>
+          <p>Every interaction is retained in a persistent Hindsight memory bank with timestamps and metadata, recalled before each answer, then reasoned over to produce an evidence-backed Deal Brief.</p>
+          <div class="meta">
+            <div>&gt; <span class="p">stack:</span> python · streamlit · hindsight · groq</div>
+            <div>&gt; <span class="p">memory:</span> retain → recall → reflect, with a visible evidence trace</div>
+            <div>&gt; <span class="p">verdict:</span> <span class="v">"finally, an AI that remembers the last meeting"</span></div>
+          </div>
+          <div class="acts">
+            <a href="https://github.com/Areeb-1357/hindsight-deal-command-center" target="_blank" rel="noopener">code ↗</a>
+          </div>
+        </div>
+
+        <div class="feat-r">
+          <div class="ctl">
+  <div class="win-bar">
+    <span class="tdot tr"></span><span class="tdot ty"></span><span class="tdot tg"></span>
+    <em>ACME.timeline</em>
+  </div>
+  <div class="tl">
+    <div class="tl-i"><span class="d">sep 02</span><div><b>Discovery call</b><small>forecast pain, stakeholders mapped</small></div></div>
+    <div class="tl-i"><span class="d">sep 12</span><div><b>Technical validation</b><small>security review, competitor clarified</small></div></div>
+    <div class="tl-i"><span class="d">sep 19</span><div><b>Pricing &amp; procurement</b><small>budget ceiling surfaced</small></div></div>
+    <div class="tl-i"><span class="d">sep 26</span><div><b>Executive alignment</b><small>CRO conditional commitment</small></div></div>
+    <div class="tl-i goal"><span class="d">oct 30</span><div><b>Target close</b><small>$180K ARR · Atlas Revenue Intelligence</small></div></div>
+  </div>
+</div>
+          <div class="feat-tags">
+            <span>persistent memory</span>
+            <span>evidence trace</span>
+            <span>deal brief generator</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-head">mini projects</div>
+
     <div class="work-grid">
       <div class="proj">
         <span class="kind">shipped</span>
