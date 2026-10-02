@@ -725,7 +725,7 @@ html[data-theme="flip"] .badge,html[data-theme="flip"] .orb,html[data-theme="fli
                 <div><i>whoami</i><b class="ac">areeb basheer</b></div>
                 <div><i>role</i><b>aiml student</b></div>
                 <div><i>focus</i><b>ai · ml · web</b></div>
-                <div><i>shipped</i><b>3 mini projects + 1 game</b></div>
+                <div><i>shipped</i><b>3 mini · 1 AI agent · 1 game</b></div>
                 <div><i>status</i><b class="on">learning &amp; building</b></div>
               </div>
             </div>
@@ -737,6 +737,7 @@ html[data-theme="flip"] .badge,html[data-theme="flip"] .orb,html[data-theme="fli
               <em>STATUS.log</em>
             </div>
             <div class="mini-body">
+              <div><i>shipped</i><b>AI agent · Deal Command Center</b></div>
               <div><i>building</i><b>project #4 — still on localhost</b></div>
               <div><i>learning</i><b>AI/ML &amp; web development</b></div>
               <div><i>reading</i><b>how neural networks actually train</b></div>
@@ -1122,7 +1123,7 @@ function frame(now){
 if (!RM) requestAnimationFrame(frame);
 
 /* ============================================================
-   AMBIENT FIELD — 30fps, 6 draw calls per frame
+   AMBIENT FIELD — low-frequency background render
    ============================================================ */
 function initField(){
   var cv = document.getElementById('field'); if (!cv) return;
@@ -1195,7 +1196,7 @@ function initMatrixBG(){
   var rt; window.addEventListener('resize', function(){ clearTimeout(rt); rt = setTimeout(size, 180); });
   var acc = 0;
   addJob(function(now, dt){
-    acc += dt; if (acc < 100) return;
+    acc += dt; if (acc < 200) return;
     var frameDt = acc; acc = 0;
     var fade = 1-Math.pow(1-.14, frameDt/58);
     ctx.fillStyle = 'rgba(4,6,11,' + fade.toFixed(3) + ')';
@@ -1260,12 +1261,14 @@ function initCursor(){
   var dot = document.getElementById('cDot');
   cRing = document.getElementById('cRing');
   document.body.classList.add('cursor-on');
-  var mx = innerWidth/2, my = innerHeight/2, rx = mx, ry = my;
-  document.addEventListener('pointermove', function(e){ mx = e.clientX; my = e.clientY; }, { passive:true });
+  var mx = innerWidth/2, my = innerHeight/2, rx = mx, ry = my, cursorMoving = false;
+  document.addEventListener('pointermove', function(e){ mx = e.clientX; my = e.clientY; cursorMoving = true; }, { passive:true });
   addJob(function(){
+    if (!cursorMoving) return;
     rx += (mx-rx)*.2; ry += (my-ry)*.2;
     dot.style.transform = 'translate(' + (mx-2.5) + 'px,' + (my-2.5) + 'px)';
     cRing.style.transform = 'translate(' + (rx-19) + 'px,' + (ry-19) + 'px)';
+    if (Math.abs(mx-rx)<.2 && Math.abs(my-ry)<.2){ rx = mx; ry = my; cursorMoving = false; }
   });
   document.addEventListener('pointerover', function(e){
     var hot = e.target.closest && e.target.closest('a,button,.card,.proj,.badge,.term,.mini,.step,.profile,.eg,.next');
@@ -1366,7 +1369,7 @@ function initOrbit(){
   var cv = document.getElementById('orbit');
   if (!cv || !DESKTOP) return;
   var ctx = cv.getContext('2d');
-  var W = 0, H = 0, R = 0, DPR = Math.min(window.devicePixelRatio || 1, 1.25);
+  var W = 0, H = 0, R = 0, DPR = Math.min(window.devicePixelRatio || 1, 1);
   function size(){
     var r = cv.getBoundingClientRect();
     if (!r.width || !r.height) return;
@@ -1476,7 +1479,7 @@ function initOrbit(){
   var frameAcc = 0;
   addJob(function(now, dt){
     if (!onScreen || !W) return;
-    frameAcc += dt; if (frameAcc < 33) return;
+    frameAcc += dt; if (frameAcc < 50) return;
     dt = frameAcc; frameAcc = 0;
     t += dt*.001; cx = W/2; cy = H/2;
     var step = dt/16.67;
@@ -1566,7 +1569,7 @@ function initNet(){
   var ctx = cv.getContext('2d');
   var counter = document.getElementById('netCount');
   var fireBtn = document.getElementById('netFire');
-  var W = 0, H = 0, DPR = Math.min(window.devicePixelRatio || 1, 1.2);
+  var W = 0, H = 0, DPR = Math.min(window.devicePixelRatio || 1, 1);
   var LAYERS = [4, 6, 6, 3];
   var cols = [], edges = [], fired = 0;
 
@@ -1640,7 +1643,7 @@ function initNet(){
     if (!onScreen || !W) return;
     acc += dt;
     if (acc > 430){ acc = 0; spawn(null); }
-    frameAcc += dt; if (frameAcc < 33) return;
+    frameAcc += dt; if (frameAcc < 50) return;
     var frameDt = frameAcc; frameAcc = 0;
 
     ctx.clearRect(0, 0, W, H);
@@ -1720,12 +1723,13 @@ function initTerminal(){
   var SCRIPT = [
     { cmd:'whoami', out:[['areeb basheer — aiml student','out']] },
     { cmd:'cat focus.txt', out:[['artificial intelligence · machine learning','acc'],['web development · a healthy amount of curiosity','acc']] },
-    { cmd:'ls ~/projects', out:[['expense-tracker/   scientific-calculator/','out'],['quiz-quest/        project-04/ (cooking)','out']] },
+    { cmd:'ls ~/projects', out:[['deal-command-center/  expense-tracker/','out'],['scientific-calculator/  quiz-quest/','out'],['neon-drift/  project-04/ (cooking)','out']] },
+    { cmd:'agent --status', out:[['Deal Command Center — AI sales copilot','acc'],['persistent memory · evidence-backed deal briefs','ok']] },
     { cmd:'python3 expense_tracker.py --summary', out:[['reading expenses.csv ... 3 categories found','dim'],['transport: significantly more than expected','ok']] },
     { cmd:'stack --list', out:[['python · javascript · html · css · git','acc']] },
     { cmd:'node calculator.js "sin(x)"', out:[['no TI-84 required','ok']] },
     { cmd:'git log --oneline -3', out:[['a91c4e2  fix: the bug that fixed itself','dim'],['5f0b17d  feat: quiz quest keeps score now','dim'],['1c8ae04  chore: rename final_final_v2.js','dim']] },
-    { cmd:'curl -s localhost:3000/status', out:[['{ "mode": "learning", "shipped": 3, "bugs_fixed": "lost count" }','out']] },
+    { cmd:'curl -s localhost:3000/status', out:[['{ "mini_projects": 3, "ai_agents": 1, "games": 1 }','out']] },
     { cmd:'net --forward', out:[['input → hidden → hidden → output','acc'],['activation passed in 4 layers','ok']] },
     { cmd:'scan --self', out:[['1 open port found: the urge to know how things work','ok']] },
     { cmd:'uptime', out:[['learning since day one · 0 days without a new rabbit hole','out']] },
