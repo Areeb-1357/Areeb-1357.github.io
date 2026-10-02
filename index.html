@@ -71,16 +71,10 @@ body.lock{overflow:hidden;height:100vh}
     rgba(4,6,11,.86) 76%,var(--void) 96%)}
 
 .ld{position:relative;z-index:3;width:min(400px,86vw);display:flex;flex-direction:column;align-items:center}
-.ld-ring{position:relative;width:172px;height:172px;margin-bottom:24px}
-.ld-ring svg{width:100%;height:100%;transform:rotate(-90deg)}
-.ld-track{fill:none;stroke:rgba(255,255,255,.06);stroke-width:2.5}
-.ld-tick{fill:none;stroke:rgba(167,139,250,.32);stroke-width:1;stroke-dasharray:1 7.4;
-  transform-origin:60px 60px;animation:spinTick 26s linear infinite}
-@keyframes spinTick{to{transform:rotate(360deg)}}
-.ld-fill{fill:none;stroke:url(#g1);stroke-width:2.5;stroke-linecap:round;
-  stroke-dasharray:326.7;stroke-dashoffset:326.7;transition:stroke-dashoffset .2s linear;
-  filter:drop-shadow(0 0 7px rgba(56,189,248,.7))}
-.ld-mid{position:absolute;inset:0;display:grid;place-content:center;text-align:center}
+.ld-panel{width:min(300px,86vw);margin-bottom:24px;padding:20px 22px;
+  border:1px solid rgba(56,189,248,.3);border-radius:8px;
+  background:rgba(8,13,23,.82);box-shadow:0 0 28px rgba(56,189,248,.1),inset 0 0 22px rgba(56,189,248,.04)}
+.ld-panel-head{display:flex;align-items:center;justify-content:space-between;gap:18px}
 .ld-name{font-family:var(--display);font-size:22px;font-weight:700;letter-spacing:-.4px;
   animation:glitch 1s infinite}
 .ld-name span{color:var(--cyan)}
@@ -91,7 +85,10 @@ body.lock{overflow:hidden;height:100vh}
   93%{text-shadow:-1px 0 var(--cyan),1px 0 var(--pink);transform:translate(0,.6px)}
   96%{text-shadow:1px 0 var(--amber),-1px 0 var(--violet);transform:translate(-.5px,0)}
 }
-.ld-pct{font-family:var(--code);font-size:21px;color:var(--cyan);margin-top:3px;letter-spacing:.5px}
+.ld-pct{font-family:var(--code);font-size:18px;color:var(--cyan);letter-spacing:.5px}
+.ld-progress{height:3px;margin-top:16px;overflow:hidden;background:rgba(255,255,255,.08)}
+.ld-fill{display:block;width:0;height:100%;background:linear-gradient(90deg,#38bdf8,#a78bfa,#f472b6);
+  box-shadow:0 0 10px rgba(56,189,248,.7);transition:width .2s linear}
 .ld-status{font-family:var(--code);font-size:10.5px;color:var(--text-3);letter-spacing:2px;
   text-transform:uppercase;margin-bottom:18px}
 .ld-log{font-family:var(--code);font-size:11.5px;color:var(--text-3);min-height:118px;width:100%}
@@ -575,20 +572,12 @@ html[data-theme="flip"] .badge,html[data-theme="flip"] .orb,html[data-theme="fli
   <div class="scan"></div>
   <div class="vig"></div>
   <div class="ld">
-    <div class="ld-ring">
-      <svg viewBox="0 0 120 120">
-        <defs><linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stop-color="#38bdf8"/><stop offset="55%" stop-color="#a78bfa"/>
-          <stop offset="100%" stop-color="#f472b6"/>
-        </linearGradient></defs>
-        <circle class="ld-tick" cx="60" cy="60" r="58"></circle>
-        <circle class="ld-track" cx="60" cy="60" r="52"></circle>
-        <circle class="ld-fill" id="ldFill" cx="60" cy="60" r="52"></circle>
-      </svg>
-      <div class="ld-mid">
+    <div class="ld-panel">
+      <div class="ld-panel-head">
         <div class="ld-name">AREEB<span>.</span></div>
         <div class="ld-pct" id="ldPct">0%</div>
       </div>
+      <div class="ld-progress"><span class="ld-fill" id="ldFill"></span></div>
     </div>
     <div class="ld-status" id="ldStatus">Initializing</div>
     <div class="ld-log" id="ldLog">
@@ -2046,7 +2035,7 @@ function boot(){
   var statusEl = document.getElementById('ldStatus');
   var logs = document.querySelectorAll('#ldLog div');
   var STATUS = ['Initializing','Loading assets','Calibrating shaders','Almost there','Ready'];
-  var C = 326.7, li = 0;
+  var li = 0;
 
   (function reveal(){
     if (li < logs.length){ logs[li++].classList.add('on'); setTimeout(reveal, 90); }
@@ -2064,7 +2053,7 @@ function boot(){
         setTimeout(function(){ stopRain(); loader.remove(); }, 400);
       }, 250);
     }
-    fill.style.strokeDashoffset = C - (p/100)*C;
+    fill.style.width = p + '%';
     pct.textContent = Math.floor(p) + '%';
     statusEl.textContent = STATUS[Math.min(STATUS.length-1, Math.floor((p/100)*STATUS.length))];
   }, 130);
