@@ -1097,13 +1097,17 @@ var DESKTOP = window.matchMedia('(min-width: 901px)').matches;
    ============================================================ */
 var jobs = [];
 function addJob(fn){ jobs.push(fn); }
+var smoothJobs = [];
+function addSmoothJob(fn){ smoothJobs.push(fn); }
 var prev = 0, frameElapsed = 0;
 function frame(now){
   requestAnimationFrame(frame);
   if (document.hidden){ prev = now; frameElapsed = 0; return; }
   if (!prev){ prev = now; return; }
-  frameElapsed += Math.min(now-prev, 100);
+  var elapsed = Math.min(now-prev, 100);
+  frameElapsed += elapsed;
   prev = now;
+  for (var j = 0; j < smoothJobs.length; j++) smoothJobs[j](now, elapsed);
   if (frameElapsed < 33) return;
   var dt = frameElapsed;
   frameElapsed = 0;
@@ -1465,11 +1469,9 @@ function initOrbit(){
     ctx.strokeStyle = color; ctx.lineWidth = 1; ctx.stroke();
   }
 
-  var frameAcc = 0;
-  addJob(function(now, dt){
+  var A = [], B = [];
+  addSmoothJob(function(now, dt){
     if (!onScreen || !W) return;
-    frameAcc += dt; if (frameAcc < 50) return;
-    dt = frameAcc; frameAcc = 0;
     t += dt*.001; cx = W/2; cy = H/2;
     var step = dt/16.67;
     if (auto) vY += (.0022-vY)*(1-Math.pow(.98,step));
@@ -1482,7 +1484,7 @@ function initOrbit(){
 
     var i, p;
     for (i = 0; i < nodes.length; i++) project(nodes[i]);
-    var A = [], B = [];
+    A.length = 0; B.length = 0;
     for (i = 0; i < edges.length; i += 2){
       var n1 = nodes[edges[i]], n2 = nodes[edges[i+1]];
       ((n1.sz+n2.sz) < 0 ? A : B).push(n1, n2);
@@ -1623,22 +1625,22 @@ function initNet(){
   });
   if (fireBtn) fireBtn.addEventListener('click', function(){ burstFire(6); });
 
-  var onScreen = false, acc = 0, frameAcc = 0;
+  var onScreen = false, acc = 0;
   if ('IntersectionObserver' in window)
     new IntersectionObserver(function(en){ onScreen = en[0].isIntersecting; }, { threshold:.04 }).observe(cv);
   else onScreen = true;
 
-  addJob(function(now, dt){
+  var dim = [], lit = [], hot = [];
+  addSmoothJob(function(now, dt){
     if (!onScreen || !W) return;
     acc += dt;
     if (acc > 430){ acc = 0; spawn(null); }
-    frameAcc += dt; if (frameAcc < 50) return;
-    var frameDt = frameAcc; frameAcc = 0;
+    var frameDt = dt;
 
     ctx.clearRect(0, 0, W, H);
 
     /* edges — two buckets + a highlighted set for the hovered neuron */
-    var dim = [], lit = [], hot = [];
+    dim.length = 0; lit.length = 0; hot.length = 0;
     for (var i = 0; i < edges.length; i++){
       var e = edges[i];
       if (hover && (e.a === hover || e.b === hover)) hot.push(e);
