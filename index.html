@@ -8,7 +8,7 @@
 
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%23050810'/%3E%3Ctext x='50' y='70' font-size='58' text-anchor='middle' fill='%2338bdf8' font-family='monospace'%3Ea%3C/text%3E%3C/svg%3E">
 
-<meta property="og:title"s content="areeb — learn · break · build · repeat">
+<meta property="og:title" content="areeb — learn · break · build · repeat">
 <meta property="og:description" content="Areeb Basheer — AIML student, web dev & cybersecurity enthusiast">
 <meta property="og:type" content="website">
 <meta name="theme-color" content="#04060b">
@@ -29,13 +29,14 @@
 
   --text:#e9eff7;
   --text-2:#9db0c7;
-  --text-3:#5f7085;
+  --text-3:#7c8da3;
 
+  /* two accents: cyan + violet. green is only used for "online / ok" status. */
   --cyan:#38bdf8;
   --violet:#a78bfa;
-  --pink:#f472b6;
   --green:#34d399;
-  --amber:#fbbf24;
+  --pink:var(--violet);
+  --amber:var(--cyan);
 
   --sans:'Plus Jakarta Sans',system-ui,sans-serif;
   --display:'Space Grotesk',system-ui,sans-serif;
@@ -56,16 +57,12 @@ body.lock{overflow:hidden;height:100vh}
 }
 
 /* ============================================================
-   BOOT SEQUENCE
+   BOOT SEQUENCE (first visit only)
    ============================================================ */
 #loader{position:fixed;inset:0;z-index:100000;background:var(--void);display:grid;place-items:center;
-  transition:opacity .4s var(--ease),visibility .4s;overflow:hidden}
+  transition:opacity .3s var(--ease),visibility .3s;overflow:hidden}
 #loader.out{opacity:0;visibility:hidden;pointer-events:none}
 #rain{position:absolute;inset:0;width:100%;height:100%;opacity:.6}
-.scan{position:absolute;inset:0;pointer-events:none;mix-blend-mode:overlay;
-  background:repeating-linear-gradient(0deg,rgba(255,255,255,.05) 0 1px,transparent 1px 3px);
-  animation:scan 7s linear infinite}
-@keyframes scan{from{background-position-y:0}to{background-position-y:120px}}
 .vig{position:absolute;inset:0;pointer-events:none;
   background:radial-gradient(ellipse at center,rgba(4,6,11,.62) 0%,rgba(4,6,11,.28) 26%,
     rgba(4,6,11,.86) 76%,var(--void) 96%)}
@@ -75,67 +72,36 @@ body.lock{overflow:hidden;height:100vh}
   border:1px solid rgba(56,189,248,.3);border-radius:8px;
   background:rgba(8,13,23,.82);box-shadow:0 0 28px rgba(56,189,248,.1),inset 0 0 22px rgba(56,189,248,.04)}
 .ld-panel-head{display:flex;align-items:center;justify-content:space-between;gap:18px}
-.ld-name{font-family:var(--display);font-size:22px;font-weight:700;letter-spacing:-.4px;
-  animation:glitch 1s infinite}
+.ld-name{font-family:var(--display);font-size:22px;font-weight:700;letter-spacing:-.4px}
 .ld-name span{color:var(--cyan)}
-@keyframes glitch{
-  0%,86%,100%{text-shadow:none;transform:translate(0,0)}
-  87%{text-shadow:-2px 0 var(--pink),2px 0 var(--cyan);transform:translate(-1.5px,.5px)}
-  90%{text-shadow:2px 0 var(--violet),-2px 0 var(--green);transform:translate(1.5px,-.5px)}
-  93%{text-shadow:-1px 0 var(--cyan),1px 0 var(--pink);transform:translate(0,.6px)}
-  96%{text-shadow:1px 0 var(--amber),-1px 0 var(--violet);transform:translate(-.5px,0)}
-}
 .ld-pct{font-family:var(--code);font-size:18px;color:var(--cyan);letter-spacing:.5px}
 .ld-progress{height:3px;margin-top:16px;overflow:hidden;background:rgba(255,255,255,.08)}
-.ld-fill{display:block;width:0;height:100%;background:linear-gradient(90deg,#38bdf8,#a78bfa,#f472b6);
-  box-shadow:0 0 10px rgba(56,189,248,.7);transition:width .2s linear}
-.ld-status{font-family:var(--code);font-size:10.5px;color:var(--text-3);letter-spacing:2px;
+.ld-fill{display:block;width:0;height:100%;background:linear-gradient(90deg,var(--cyan),var(--violet));
+  box-shadow:0 0 10px rgba(56,189,248,.7);transition:width .1s linear}
+.ld-status{font-family:var(--code);font-size:11px;color:var(--text-3);letter-spacing:2px;
   text-transform:uppercase;margin-bottom:18px}
 .ld-log{font-family:var(--code);font-size:11.5px;color:var(--text-3);min-height:118px;width:100%}
-.ld-log div{opacity:0;transform:translateY(4px);transition:opacity .3s,transform .3s;margin-bottom:6px}
+.ld-log div{opacity:0;transform:translateY(4px);transition:opacity .2s,transform .2s;margin-bottom:6px}
 .ld-log div.on{opacity:1;transform:none}
 .ld-log b{color:var(--green);font-weight:400}
 
 /* ============================================================
-   BACKGROUND
+   BACKGROUND — particle field + grain, nothing else
    ============================================================ */
 .bg{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
-.bg-wash{position:absolute;inset:-20%;will-change:transform;
-  animation:washShift 32s ease-in-out infinite;
+.bg-wash{position:absolute;inset:0;
   background:
-    radial-gradient(48% 42% at 12% 4%,  rgba(167,139,250,.16), transparent 62%),
-    radial-gradient(52% 46% at 92% 88%, rgba(56,189,248,.15),  transparent 62%),
-    radial-gradient(38% 34% at 78% 12%, rgba(244,114,182,.07), transparent 64%)}
-@keyframes washShift{
-  0%{transform:translate3d(0,0,0) scale(1)}
-  50%{transform:translate3d(-2%,1.5%,0) scale(1.035)}
-  100%{transform:translate3d(1.5%,-1%,0) scale(1)}
-}
-.bg-orbs{position:absolute;inset:0;overflow:hidden}
-.orb-glow{position:absolute;border-radius:50%;filter:blur(64px);will-change:transform}
-.orb-glow.o1{width:360px;height:360px;left:6%;top:10%;opacity:.32;
-  background:radial-gradient(circle,rgba(56,189,248,.6),transparent 70%);animation:orbFloat1 23s ease-in-out infinite}
-.orb-glow.o2{width:300px;height:300px;right:8%;top:52%;opacity:.28;
-  background:radial-gradient(circle,rgba(167,139,250,.55),transparent 70%);animation:orbFloat2 27s ease-in-out infinite}
-.orb-glow.o3{width:230px;height:230px;left:44%;bottom:4%;opacity:.24;
-  background:radial-gradient(circle,rgba(244,114,182,.45),transparent 70%);animation:orbFloat3 31s ease-in-out infinite}
-@keyframes orbFloat1{0%,100%{transform:translate3d(0,0,0)}50%{transform:translate3d(44px,32px,0)}}
-@keyframes orbFloat2{0%,100%{transform:translate3d(0,0,0)}50%{transform:translate3d(-38px,-26px,0)}}
-@keyframes orbFloat3{0%,100%{transform:translate3d(0,0,0)}50%{transform:translate3d(26px,-38px,0)}}
+    radial-gradient(48% 42% at 12% 4%,  rgba(167,139,250,.12), transparent 62%),
+    radial-gradient(52% 46% at 92% 88%, rgba(56,189,248,.11),  transparent 62%)}
 .bg-grid{position:absolute;inset:0;
   background-image:
-    linear-gradient(rgba(120,170,220,.045) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(120,170,220,.045) 1px,transparent 1px);
+    linear-gradient(rgba(120,170,220,.04) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(120,170,220,.04) 1px,transparent 1px);
   background-size:44px 44px;
   mask-image:radial-gradient(ellipse 120% 90% at 50% 30%,#000 35%,transparent 85%);
   -webkit-mask-image:radial-gradient(ellipse 120% 90% at 50% 30%,#000 35%,transparent 85%)}
-.bg-scan{position:absolute;left:0;right:0;top:-40%;height:42%;will-change:transform;
-  background:linear-gradient(180deg,transparent,rgba(56,189,248,.13) 48%,rgba(167,139,250,.15) 52%,transparent);
-  animation:scanSweep 11s linear infinite}
-@keyframes scanSweep{0%{transform:translateY(-20%)}100%{transform:translateY(340%)}}
 .bg-vignette{position:absolute;inset:0;
   background:radial-gradient(ellipse 110% 80% at 50% 40%,transparent 45%,rgba(2,4,8,.75) 100%)}
-#matrixbg{position:absolute;inset:0;width:100%;height:100%;opacity:.13;mix-blend-mode:screen}
 #field{position:absolute;inset:0;width:100%;height:100%;opacity:.55}
 .grain{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.04;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E")}
@@ -147,11 +113,11 @@ body.lock{overflow:hidden;height:100vh}
 .c-ring{position:fixed;top:0;left:0;width:26px;height:26px;border:1px solid rgba(56,189,248,.75);
   border-radius:3px;pointer-events:none;z-index:10000;will-change:transform;
   transition:width .18s var(--ease),height .18s var(--ease),border-color .18s,border-radius .18s}
-.c-ring.hot{width:38px;height:38px;border-color:var(--pink);border-radius:50%}
+.c-ring.hot{width:38px;height:38px;border-color:var(--violet);border-radius:50%}
 .c-ring.grab{width:44px;height:44px;border-color:var(--green);border-radius:50%}
 
 .scroll-progress{position:fixed;inset:0 0 auto;height:2px;z-index:1000;pointer-events:none;
-  background:linear-gradient(90deg,var(--cyan),var(--violet),var(--pink));transform:scaleX(0);
+  background:linear-gradient(90deg,var(--cyan),var(--violet));transform:scaleX(0);
   transform-origin:left center;box-shadow:0 0 12px rgba(56,189,248,.65)}
 .back-top{position:fixed;right:24px;bottom:24px;z-index:800;width:44px;height:44px;
   display:grid;place-items:center;border:1px solid var(--line-hot);border-radius:8px;
@@ -215,27 +181,10 @@ header,main,footer{position:relative;z-index:10}
 .btn-2{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.12);color:var(--text-2)}
 .btn-2:hover{border-color:rgba(255,255,255,.3);color:var(--text);transform:translateY(-2px)}
 
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:11px;margin-top:32px;max-width:540px}
-.stat{background:var(--surface);border:1px solid var(--line);border-radius:9px;padding:13px 14px;
-  transition:border-color .25s}
-.stat:hover{border-color:var(--line-hot)}
-.stat b{display:block;font-family:var(--display);font-size:24px;line-height:1;letter-spacing:-1px}
-.stat span{font-family:var(--code);font-size:10px;color:var(--text-3);display:block;margin-top:7px;
-  letter-spacing:.3px}
-.s1 b{color:var(--cyan)}.s2 b{color:var(--violet)}.s3 b{color:var(--pink)}.s4 b{color:var(--green)}
-.stat b.sym{font-size:22px;line-height:24px;display:block;animation:pulse 2.4s ease-in-out infinite alternate}
-
 .hero-r{position:relative;width:100%;height:472px;display:grid;place-items:center}
-.orbit-hud{position:absolute;top:2%;left:50%;z-index:4;display:flex;align-items:center;gap:8px;
-  transform:translateX(-50%);padding:6px 10px;border:1px solid var(--line);
-  border-radius:5px;background:rgba(4,8,15,.72);font:9px var(--code);letter-spacing:.8px;
-  color:var(--text-3);white-space:nowrap}
-.orbit-hud b{font-weight:400;color:var(--cyan)}
-.orbit-hud i{width:5px;height:5px;border-radius:50%;background:var(--green);
-  box-shadow:0 0 8px rgba(52,211,153,.7);animation:pulse 1.6s infinite alternate}
 #orbit{position:absolute;inset:0;width:100%;height:100%;touch-action:pan-y;cursor:grab}
 .orb{position:relative;z-index:2;width:88px;height:88px;border-radius:50%;background:var(--surface);
-  border:1px solid var(--line);display:grid;place-items:center;font-family:var(--code);font-size:10.5px;
+  border:1px solid var(--line);display:grid;place-items:center;font-family:var(--code);font-size:11px;
   color:var(--cyan);pointer-events:none;box-shadow:0 6px 28px rgba(0,0,0,.55)}
 .hint{position:absolute;bottom:2%;left:50%;transform:translateX(-50%);font-family:var(--code);
   font-size:11px;color:var(--text-3);transition:opacity .6s;pointer-events:none;white-space:nowrap}
@@ -244,9 +193,9 @@ header,main,footer{position:relative;z-index:10}
   border-radius:7px;font-family:var(--code);font-size:11px;color:var(--text-2);white-space:nowrap;
   user-select:none;touch-action:none;z-index:3;box-shadow:0 8px 22px rgba(0,0,0,.45)}
 .b1{top:9%;left:-1%;border-left:2px solid var(--cyan)}
-.b2{top:16%;right:-1%;border-right:2px solid var(--pink)}
-.b3{bottom:22%;left:1%;border-left:2px solid var(--green)}
-.b4{bottom:13%;right:1%;border-right:2px solid var(--violet)}
+.b2{top:16%;right:-1%;border-right:2px solid var(--violet)}
+.b3{bottom:22%;left:1%;border-left:2px solid var(--violet)}
+.b4{bottom:13%;right:1%;border-right:2px solid var(--cyan)}
 
 /* ---------------- ticker ---------------- */
 .ticker{position:relative;z-index:10;border-top:1px solid var(--line);border-bottom:1px solid var(--line);
@@ -282,9 +231,6 @@ header,main,footer{position:relative;z-index:10}
 .about-copy .sec-title{margin-bottom:14px}
 .prose{color:var(--text-2);font-size:15px;line-height:1.85;max-width:60ch}
 .prose p+p{margin-top:15px}
-.hl-c{color:var(--cyan);font-weight:500}
-.hl-v{color:var(--violet);font-weight:500}
-.hl-p{color:var(--pink);font-weight:500}
 .about-side{display:flex;flex-direction:column;gap:18px}
 
 /* PROFILE.exe */
@@ -298,10 +244,13 @@ header,main,footer{position:relative;z-index:10}
 .tr{background:#f87171}.ty{background:#fbbf24}.tg{background:#34d399}
 .profile-body{padding:18px;display:flex;gap:18px;align-items:center}
 .avatar{position:relative;width:78px;height:78px;flex:0 0 78px;display:grid;place-items:center}
-.avatar svg{position:absolute;inset:0;width:100%;height:100%;animation:spinTick 14s linear infinite}
+.avatar svg{position:absolute;inset:0;width:100%;height:100%;animation:spinTick 14s linear infinite;z-index:2}
 .avatar b{font-family:var(--display);font-size:24px;letter-spacing:-1px;
   background:linear-gradient(135deg,var(--cyan),var(--violet));-webkit-background-clip:text;
   background-clip:text;color:transparent}
+.avatar img{position:absolute;inset:7px;width:calc(100% - 14px);height:calc(100% - 14px);
+  border-radius:50%;object-fit:cover;z-index:1}
+@keyframes spinTick{to{transform:rotate(360deg)}}
 .kv{flex:1;font-family:var(--code);font-size:11.5px;line-height:1.95;min-width:0}
 .kv div{display:flex;gap:10px}
 .kv i{font-style:normal;color:var(--text-3);width:66px;flex:0 0 66px}
@@ -315,7 +264,7 @@ header,main,footer{position:relative;z-index:10}
 .term-body{padding:16px 18px;font-size:12.5px;line-height:1.75;height:292px;overflow:hidden;
   display:flex;flex-direction:column;justify-content:flex-end}
 .tline{white-space:pre-wrap;word-break:break-word}
-.tline .ps{color:var(--pink)}
+.tline .ps{color:var(--violet)}
 .tline .cm{color:var(--text)}
 .tline.out{color:var(--text-2)}
 .tline.ok{color:var(--green)}
@@ -325,25 +274,16 @@ header,main,footer{position:relative;z-index:10}
   animation:blink 1.05s steps(1) infinite}
 @keyframes blink{0%,50%{opacity:1}51%,100%{opacity:0}}
 
-.mini{background:var(--panel);border:1px solid var(--line);border-radius:11px;overflow:hidden;
-  transition:border-color .25s}
-.mini:hover{border-color:var(--line-hot)}
-.mini-body{padding:15px 18px;font-family:var(--code);font-size:11.5px;line-height:2}
-.mini-body div{display:flex;gap:12px}
-.mini-body i{font-style:normal;color:var(--text-3);width:62px;flex:0 0 62px}
-.mini-body b{font-weight:400;color:var(--text-2);min-width:0;overflow-wrap:anywhere}
-.mini-body b.on{color:var(--green)}
-
 /* ---------------- stack ---------------- */
 .grid-4{display:grid;grid-template-columns:repeat(auto-fit,minmax(212px,1fr));gap:15px;margin-top:26px}
 .skill h3{font-family:var(--display);font-size:16.5px;margin-bottom:6px;display:flex;align-items:center;gap:8px;
   flex-wrap:wrap;overflow-wrap:break-word}
 .skill p{color:var(--text-2);font-size:13px;line-height:1.6;margin-bottom:14px}
-.tag{font-family:var(--code);font-size:10.5px;color:var(--violet);margin-bottom:9px;display:block;opacity:.9}
+.tag{font-family:var(--code);font-size:11px;color:var(--violet);margin-bottom:9px;display:block;opacity:.9}
 .meter{height:3px;border-radius:3px;background:rgba(255,255,255,.06);overflow:hidden}
 .meter i{display:block;height:100%;width:0;border-radius:3px;
   background:linear-gradient(90deg,var(--cyan),var(--violet));transition:width 1.1s var(--ease)}
-.meter-lbl{display:flex;justify-content:space-between;font-family:var(--code);font-size:10px;
+.meter-lbl{display:flex;justify-content:space-between;font-family:var(--code);font-size:11px;
   color:var(--text-3);margin-top:7px}
 .sub-head{font-family:var(--code);font-size:12px;color:var(--text-3);margin-top:40px;
   display:flex;align-items:center;gap:12px}
@@ -353,13 +293,13 @@ header,main,footer{position:relative;z-index:10}
   padding:12px 14px;font-family:var(--code);font-size:11.5px;color:var(--text-2);
   transition:border-color .25s,color .25s}
 .next:hover{border-color:var(--line-hot);color:var(--text)}
-.next small{display:block;color:var(--text-3);font-size:10px;margin-top:5px}
+.next small{display:block;color:var(--text-3);font-size:11px;margin-top:5px}
 
 /* ---------------- neural lab ---------------- */
 .net-wrap{margin-top:28px;border:1px solid var(--line);border-radius:13px;background:var(--panel);
   padding:18px 18px 14px;position:relative;overflow:hidden}
 .net-head{position:relative;height:20px;margin-bottom:6px}
-.net-head span{position:absolute;transform:translateX(-50%);font-family:var(--code);font-size:10px;
+.net-head span{position:absolute;transform:translateX(-50%);font-family:var(--code);font-size:11px;
   letter-spacing:1px;color:var(--text-3);text-transform:uppercase;white-space:nowrap}
 .net-row{display:grid;grid-template-columns:128px 1fr 128px;gap:12px;align-items:start}
 .net-side{position:relative;height:266px;margin-top:26px}
@@ -385,10 +325,9 @@ header,main,footer{position:relative;z-index:10}
 .step .no{font-family:var(--code);font-size:12px;color:var(--text-3)}
 .step h4{font-family:var(--display);font-size:16px;margin-bottom:4px}
 .step p{color:var(--text-2);font-size:13px;line-height:1.55}
-.state{font-family:var(--code);font-size:10px;letter-spacing:.6px;padding:4px 10px;border-radius:999px;
+.state{font-family:var(--code);font-size:11px;letter-spacing:.6px;padding:4px 10px;border-radius:999px;
   text-align:center;text-transform:uppercase;white-space:nowrap}
 .st-done{color:var(--green);background:rgba(52,211,153,.09);border:1px solid rgba(52,211,153,.26)}
-.st-now{color:var(--amber);background:rgba(251,191,36,.09);border:1px solid rgba(251,191,36,.28)}
 .st-next{color:var(--text-3);background:rgba(255,255,255,.03);border:1px solid var(--line)}
 
 .explore{margin-top:34px;display:flex;flex-wrap:wrap;gap:9px}
@@ -397,10 +336,11 @@ header,main,footer{position:relative;z-index:10}
   border:1px solid rgba(167,139,250,.2);border-radius:999px;padding:6px 14px;transition:color .2s,border-color .2s}
 .eg:hover{color:var(--text);border-color:var(--violet)}
 
-.how{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:15px;margin-top:34px}
-.how .card h4{font-family:var(--display);font-size:15.5px;margin-bottom:7px}
-.how .card p{color:var(--text-2);font-size:13px;line-height:1.6}
-.how .card .n{font-family:var(--code);font-size:10.5px;color:var(--pink);display:block;margin-bottom:9px}
+.how-prose{margin-top:34px}
+.oops{list-style:none;margin-top:16px;display:grid;gap:10px;max-width:70ch}
+.oops li{position:relative;padding-left:18px;font-size:14px;line-height:1.65;color:var(--text-2)}
+.oops li::before{content:'›';position:absolute;left:0;color:var(--cyan);font-family:var(--code)}
+.oops b{color:var(--text);font-weight:600}
 
 /* ---------------- projects ---------------- */
 .work-grid{margin-top:24px;display:grid;grid-template-columns:repeat(auto-fill,minmax(248px,1fr));gap:14px}
@@ -411,14 +351,14 @@ header,main,footer{position:relative;z-index:10}
   background:radial-gradient(200px circle at var(--mx,50%) var(--my,50%),rgba(167,139,250,.14),transparent 70%)}
 .proj:hover{border-color:var(--line-hot);background:var(--surface-hot)}
 .proj:hover::before{opacity:1}
-.proj .kind{font-family:var(--code);font-size:9.5px;letter-spacing:.7px;color:var(--pink);
-  background:rgba(244,114,182,.08);border:1px solid rgba(244,114,182,.2);padding:2px 7px;border-radius:4px;
+.proj .kind{font-family:var(--code);font-size:11px;letter-spacing:.7px;color:var(--violet);
+  background:rgba(167,139,250,.08);border:1px solid rgba(167,139,250,.22);padding:2px 7px;border-radius:4px;
   width:fit-content;margin-bottom:9px}
 .proj h3{font-family:var(--display);font-size:15px;line-height:1.3;letter-spacing:-.2px;margin-bottom:6px}
 .proj p{color:var(--text-2);font-size:12.5px;line-height:1.52;margin-bottom:10px}
 .proj .meta{background:rgba(4,7,13,.75);border:1px dashed rgba(56,189,248,.22);padding:7px 9px;
-  border-radius:6px;font-family:var(--code);font-size:10.5px;line-height:1.5;color:var(--cyan);word-break:break-word}
-.proj .meta .p{color:var(--pink)}
+  border-radius:6px;font-family:var(--code);font-size:11px;line-height:1.5;color:var(--cyan);word-break:break-word}
+.proj .meta .p{color:var(--violet)}
 .proj .meta .v{color:var(--violet)}
 .proj .meta .g{color:var(--green)}
 .proj .acts{margin-top:auto;padding-top:10px;display:flex;gap:14px;flex-wrap:wrap;position:relative;z-index:5}
@@ -426,15 +366,29 @@ header,main,footer{position:relative;z-index:10}
   border-bottom:1px solid rgba(148,170,205,.25);padding-bottom:1px;transition:color .2s,border-color .2s}
 .proj .acts a:hover{color:var(--cyan);border-color:var(--cyan)}
 .work-note{text-align:right;font-family:var(--code);font-size:11px;color:var(--text-3);margin-top:12px}
-.easter-hint{margin-left:12px;color:var(--text-3);opacity:.58;white-space:nowrap;transition:color .2s,opacity .2s}
+.easter-hint{margin-left:12px;color:var(--text-3);opacity:.7;white-space:nowrap;transition:color .2s,opacity .2s}
 .easter-hint:hover{color:var(--cyan);opacity:1}
+
+/* screenshots — figure removes itself if the image file is missing */
+.shot{margin:0 0 12px;border:1px solid var(--line);border-radius:7px;overflow:hidden;background:#05070d}
+.shot img{display:block;width:100%;height:auto}
+
+/* case study */
+.case{margin-top:12px;position:relative;z-index:5}
+.case summary{cursor:pointer;font-family:var(--code);font-size:11.5px;color:var(--cyan);list-style:none;width:fit-content}
+.case summary::-webkit-details-marker{display:none}
+.case summary::before{content:'+ '}
+.case[open] summary::before{content:'− '}
+.case div{margin-top:10px;padding-left:12px;border-left:1px solid var(--line-hot)}
+.case p{font-size:13px;line-height:1.65;color:var(--text-2);margin-bottom:8px}
+.case p b{color:var(--text);font-weight:600}
 
 /* ---------------- contact ---------------- */
 .c-head{font-family:var(--display);font-size:17px;color:var(--cyan);margin-top:8px}
 .c-note{font-family:var(--code);font-size:12px;color:var(--text-2);margin:6px 0 22px;line-height:1.6}
-.c-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.c-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
 .c-card{display:flex;align-items:center;justify-content:space-between;text-decoration:none;color:var(--text)}
-.c-card small{font-family:var(--code);color:var(--text-3);font-size:10.5px;display:block;margin-bottom:5px}
+.c-card small{font-family:var(--code);color:var(--text-3);font-size:11px;display:block;margin-bottom:5px}
 .c-card strong{font-family:var(--code);color:var(--cyan);font-size:13.5px;font-weight:500}
 .c-card .ar{font-family:var(--code);font-size:16px;color:var(--text-3);transition:transform .2s,color .2s}
 .c-card:hover .ar{color:var(--cyan);transform:translate(2px,-2px)}
@@ -446,7 +400,7 @@ footer a:hover{color:var(--cyan)}
 
 .rv{opacity:0;transform:translateY(22px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
 .rv.on{opacity:1;transform:none}
-a:focus-visible,.btn:focus-visible,.c-card:focus-visible,.net-btn:focus-visible{
+a:focus-visible,.btn:focus-visible,.c-card:focus-visible,.net-btn:focus-visible,.case summary:focus-visible{
   outline:2px solid var(--cyan);outline-offset:3px;border-radius:4px}
 
 @media (max-width:1100px){
@@ -455,18 +409,18 @@ a:focus-visible,.btn:focus-visible,.c-card:focus-visible,.net-btn:focus-visible{
 }
 .tl{position:relative;padding:14px 16px 12px 18px;font-family:var(--code)}
 .tl::before{content:'';position:absolute;left:78px;top:22px;bottom:26px;width:1px;
-  background:linear-gradient(180deg,var(--cyan),var(--violet),var(--pink));opacity:.45}
+  background:linear-gradient(180deg,var(--cyan),var(--violet));opacity:.45}
 .tl-i{position:relative;display:grid;grid-template-columns:52px 1fr;gap:26px;padding:7px 0}
 .tl-i::before{content:'';position:absolute;left:56px;top:13px;width:9px;height:9px;border-radius:50%;
   background:var(--cyan);box-shadow:0 0 8px rgba(56,189,248,.6)}
 .tl-i:nth-child(2)::before{background:var(--violet);box-shadow:0 0 8px rgba(167,139,250,.6)}
-.tl-i:nth-child(3)::before{background:var(--pink);box-shadow:0 0 8px rgba(244,114,182,.6)}
-.tl-i:nth-child(4)::before{background:var(--green);box-shadow:0 0 8px rgba(52,211,153,.6)}
-.tl-i.goal::before{background:var(--amber);box-shadow:0 0 10px rgba(251,191,36,.7)}
-.tl-i .d{font-size:10.5px;color:var(--text-3);text-transform:uppercase;letter-spacing:.5px;padding-top:2px}
+.tl-i:nth-child(3)::before{background:var(--cyan);box-shadow:0 0 8px rgba(56,189,248,.6)}
+.tl-i:nth-child(4)::before{background:var(--violet);box-shadow:0 0 8px rgba(167,139,250,.6)}
+.tl-i.goal::before{background:var(--green);box-shadow:0 0 10px rgba(52,211,153,.7)}
+.tl-i .d{font-size:11px;color:var(--text-3);text-transform:uppercase;letter-spacing:.5px;padding-top:2px}
 .tl-i b{display:block;font-weight:500;font-size:12px;color:var(--text)}
-.tl-i small{display:block;font-size:10.5px;color:var(--text-2);margin-top:2px}
-.tl-i.goal b{color:var(--amber)}
+.tl-i small{display:block;font-size:11px;color:var(--text-2);margin-top:2px}
+.tl-i.goal b{color:var(--green)}
 @media (max-width:900px){
   .c-dot,.c-ring{display:none}
   .back-top{right:16px;bottom:16px}
@@ -474,8 +428,6 @@ a:focus-visible,.btn:focus-visible,.c-card:focus-visible,.net-btn:focus-visible{
   .hero{grid-template-columns:1fr;padding-top:138px;min-height:auto}
   .hero-r{display:none}
   .hero h1{margin-top:8px}
-  .stats{grid-template-columns:repeat(2,1fr);max-width:none}
-  .c-grid{grid-template-columns:1fr}
   .sec{padding:62px 5vw}
   .net-row{grid-template-columns:1fr}
   .net-side{display:none}
@@ -491,31 +443,32 @@ a:focus-visible,.btn:focus-visible,.c-card:focus-visible,.net-btn:focus-visible{
   .easter-hint{display:block;margin:8px 0 0}
 }
 @media (max-width:420px){
-  .chip{padding:6px 10px;font-size:10px;gap:6px}
+  .chip{padding:6px 10px;font-size:11px;gap:6px}
   .chip .chip-text{display:none}
 }
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
   #loader{display:none}
   .c-dot,.c-ring,#field,#spark,#orbit{display:none}
-  .pill i,.cur,.ticker-in,.avatar svg,.ld-name,.bg-wash,.orb-glow,.bg-scan{animation:none!important}
+  .pill i,.cur,.ticker-in,.avatar svg{animation:none!important}
   .rv{opacity:1!important;transform:none!important;transition:none!important}
   .back-top{transition:none}
 }
 
-/* ---------- featured game card ---------- */
+/* ---------- featured cards ---------- */
 .proj.feat{grid-column:1/-1;display:grid;grid-template-columns:1.2fr .8fr;gap:24px;padding:20px 22px}
 .feat-l{display:flex;flex-direction:column;min-width:0}
 .feat h3{font-size:22px;letter-spacing:-.5px;margin-bottom:8px}
 .feat p{font-size:13.5px;line-height:1.65}
 .feat .meta{font-size:11px}
 .feat-r{position:relative;z-index:5;display:flex;flex-direction:column;gap:12px;min-width:0}
+.feat-r .shot{margin:0}
 .ctl{background:var(--panel);border:1px solid var(--line);border-radius:9px;overflow:hidden}
 .ctl-body{padding:12px 14px;font-family:var(--code);font-size:11.5px;line-height:2.1}
 .ctl-body div{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
 .ctl-body i{font-style:normal;color:var(--text-3);width:58px;flex:0 0 58px}
 .ctl-body b{font-weight:400;color:var(--text-2)}
-.ctl kbd{font-family:var(--code);font-size:10.5px;color:var(--cyan);background:rgba(56,189,248,.08);
+.ctl kbd{font-family:var(--code);font-size:11px;color:var(--cyan);background:rgba(56,189,248,.08);
   border:1px solid rgba(56,189,248,.28);border-bottom-width:2px;border-radius:4px;padding:0 6px;margin-right:3px}
 .feat-tags{display:flex;flex-wrap:wrap;gap:8px}
 .feat-tags span{font-family:var(--code);font-size:11px;color:var(--text-2);background:rgba(167,139,250,.07);
@@ -540,12 +493,10 @@ html[data-theme="flip"]{
   --line-hot:rgba(2,132,199,.5);
   --text:#0f172a;
   --text-2:#3b4a60;
-  --text-3:#6b7789;
+  --text-3:#667385;
   --cyan:#0284c7;
   --violet:#7c3aed;
-  --pink:#db2777;
   --green:#059669;
-  --amber:#d97706;
 }
 html[data-theme="flip"] ::selection{background:var(--cyan);color:#fff}
 html[data-theme="flip"] .nav{background:rgba(244,239,230,.94)}
@@ -569,7 +520,6 @@ html[data-theme="flip"] .badge,html[data-theme="flip"] .orb,html[data-theme="fli
 
 <div id="loader">
   <canvas id="rain"></canvas>
-  <div class="scan"></div>
   <div class="vig"></div>
   <div class="ld">
     <div class="ld-panel">
@@ -583,25 +533,15 @@ html[data-theme="flip"] .badge,html[data-theme="flip"] .orb,html[data-theme="fli
     <div class="ld-log" id="ldLog">
       <div>&gt; booting kernel <b>[ok]</b></div>
       <div>&gt; mounting filesystem <b>[ok]</b></div>
-      <div>&gt; loading neural weights <b>[ok]</b></div>
-      <div>&gt; spinning up particle field <b>[ok]</b></div>
-      <div>&gt; compiling shaders <b>[ok]</b></div>
-      <div>&gt; rendering portfolio <b>[ready]</b></div>
+      <div>&gt; loading portfolio <b>[ready]</b></div>
     </div>
   </div>
 </div>
 
 <div class="bg">
   <div class="bg-wash"></div>
-  <div class="bg-orbs">
-    <div class="orb-glow o1"></div>
-    <div class="orb-glow o2"></div>
-    <div class="orb-glow o3"></div>
-  </div>
   <div class="bg-grid"></div>
-  <canvas id="matrixbg"></canvas>
   <canvas id="field"></canvas>
-  <div class="bg-scan"></div>
   <div class="bg-vignette"></div>
 </div>
 <div class="grain"></div>
@@ -640,20 +580,19 @@ html[data-theme="flip"] .badge,html[data-theme="flip"] .orb,html[data-theme="fli
       <div class="hero-btns">
         <a href="#contact" class="btn btn-1">Get in touch</a>
         <a href="#work" class="btn btn-2">See projects</a>
+        <a href="assets/resume.pdf" target="_blank" rel="noopener" class="btn btn-2">Resume ↗</a>
         <a href="https://github.com/Areeb-1357" target="_blank" rel="noopener" class="btn btn-2">GitHub ↗</a>
       </div>
-
     </div>
 
     <div class="hero-r">
-      <div class="orbit-hud" aria-hidden="true"><i></i> NEURAL FIELD <b>// LIVE</b></div>
       <canvas id="orbit"></canvas>
       <div class="orb" id="orb">AREEB.AI</div>
-      <div class="badge b1">🧠 neural weights: active</div>
-      <div class="badge b2">🧪 experiment mode: on</div>
-      <div class="badge b3">🛡️ security: curious</div>
-      <div class="badge b4">🌐 web mesh synced</div>
-      <div class="hint" id="hint">drag to spin · click a node to ping it · drag any box around</div>
+      <div class="badge b1">neural weights: active</div>
+      <div class="badge b2">experiment mode: on</div>
+      <div class="badge b3">security: curious</div>
+      <div class="badge b4">web mesh synced</div>
+      <div class="hint" id="hint">drag to spin · click a node to ping it · drag the boxes around</div>
     </div>
   </section>
 
@@ -708,29 +647,19 @@ html[data-theme="flip"] .badge,html[data-theme="flip"] .orb,html[data-theme="fli
                   <circle cx="40" cy="40" r="37" fill="none" stroke="rgba(56,189,248,.35)" stroke-width="1" stroke-dasharray="4 6"/>
                   <circle cx="40" cy="40" r="30" fill="none" stroke="rgba(167,139,250,.25)" stroke-width="1" stroke-dasharray="2 9"/>
                 </svg>
+                <!-- put your photo at assets/me.jpg; if the file is missing the "AB" initials stay -->
+                <img src="assets/me.jpg" alt="Areeb Basheer" loading="lazy" onerror="this.remove()">
                 <b>AB</b>
               </div>
               <div class="kv">
                 <div><i>whoami</i><b class="ac">areeb basheer</b></div>
                 <div><i>role</i><b>aiml student</b></div>
+                <div><i>based</i><b>hyderabad, india</b></div>
                 <div><i>focus</i><b>ai · ml · web</b></div>
                 <div><i>shipped</i><b>3 mini · 1 AI agent · 1 game</b></div>
-                <div><i>status</i><b class="on">learning &amp; building</b></div>
+                <div><i>building</i><b>project #4 — still on localhost</b></div>
+                <div><i>open to</i><b class="on">collabs · study groups · cool ideas</b></div>
               </div>
-            </div>
-          </div>
-
-          <div class="mini">
-            <div class="win-bar">
-              <span class="tdot tr"></span><span class="tdot ty"></span><span class="tdot tg"></span>
-              <em>STATUS.log</em>
-            </div>
-            <div class="mini-body">
-              <div><i>shipped</i><b>AI agent · Deal Command Center</b></div>
-              <div><i>building</i><b>project #4 — still on localhost</b></div>
-              <div><i>learning</i><b>AI/ML &amp; web development</b></div>
-              <div><i>reading</i><b>how neural networks actually train</b></div>
-              <div><i>open to</i><b class="on">collabs · study groups · cool ideas</b></div>
             </div>
           </div>
         </div>
@@ -739,35 +668,35 @@ html[data-theme="flip"] .badge,html[data-theme="flip"] .orb,html[data-theme="fli
   </section>
 
   <section id="stack" class="sec rv">
-    <div class="sec-lbl">03 / stack</div>
+    <div class="sec-lbl">02 / stack</div>
     <h2 class="sec-title">What I'm working with</h2>
     <p class="sec-sub">The tools I actually use right now — plus the ones sitting in the queue. The bars are honest, not flattering.</p>
 
     <div class="grid-4">
       <div class="card skill">
         <span class="tag">language</span>
-        <h3>🐍 Python</h3>
+        <h3>Python</h3>
         <p>My main tool for AI/ML foundations, mathematical scripting and core logic.</p>
         <div class="meter"><i data-v="70"></i></div>
         <div class="meter-lbl"><span>comfortable</span><span>70%</span></div>
       </div>
       <div class="card skill">
         <span class="tag">language</span>
-        <h3>⚡ JavaScript</h3>
+        <h3>JavaScript</h3>
         <p>Making pages dynamic, interactive and responsive to what people actually do.</p>
         <div class="meter"><i data-v="50"></i></div>
         <div class="meter-lbl"><span>getting there</span><span>50%</span></div>
       </div>
       <div class="card skill">
         <span class="tag">markup &amp; style</span>
-        <h3>🎨 HTML &amp; CSS</h3>
+        <h3>HTML &amp; CSS</h3>
         <p>Building dark, modern interfaces and clean layouts from scratch.</p>
         <div class="meter"><i data-v="80"></i></div>
         <div class="meter-lbl"><span>solid</span><span>80%</span></div>
       </div>
       <div class="card skill">
         <span class="tag">workflow</span>
-        <h3>🔧 Git &amp; GitHub</h3>
+        <h3>Git &amp; GitHub</h3>
         <p>Version control, branches, and pushing things live with GitHub Pages.</p>
         <div class="meter"><i data-v="50"></i></div>
         <div class="meter-lbl"><span>learning daily</span><span>50%</span></div>
@@ -785,7 +714,7 @@ html[data-theme="flip"] .badge,html[data-theme="flip"] .orb,html[data-theme="fli
   </section>
 
   <section id="lab" class="sec rv">
-    <div class="sec-lbl">04 / lab</div>
+    <div class="sec-lbl">03 / lab</div>
     <h2 class="sec-title">Signal flow</h2>
     <p class="sec-sub">A tiny neural network, running live. Signals travel input → hidden → output, the same way a real one passes activations forward. Click anywhere inside it to fire a batch.</p>
 
@@ -823,7 +752,7 @@ html[data-theme="flip"] .badge,html[data-theme="flip"] .orb,html[data-theme="fli
   </section>
 
   <section id="path" class="sec rv">
-    <div class="sec-lbl">05 / path</div>
+    <div class="sec-lbl">04 / path</div>
     <h2 class="sec-title">The route so far</h2>
     <p class="sec-sub">Year one, in order. Each step had to actually work before the next one started.</p>
 
@@ -897,27 +826,20 @@ html[data-theme="flip"] .badge,html[data-theme="flip"] .orb,html[data-theme="fli
       <span class="eg">regex (reluctantly)</span>
     </div>
 
-    <div class="how">
-      <div class="card">
-        <span class="n">approach 01</span>
-        <h4>Build it to understand it</h4>
-        <p>Reading about a concept gets me halfway. Writing a small broken version of it gets me the rest.</p>
-      </div>
-      <div class="card">
-        <span class="n">approach 02</span>
-        <h4>Break it on purpose</h4>
-        <p>The fastest way to learn what a thing does is to find out exactly where it stops working.</p>
-      </div>
-      <div class="card">
-        <span class="n">approach 03</span>
-        <h4>Finished beats ambitious</h4>
-        <p>A small project that runs teaches more than a huge one that never leaves the folder.</p>
-      </div>
+    <div class="prose how-prose">
+      <p>My method is simple: build a small, broken version of something first, because reading only gets me halfway. Then break it on purpose to find where it stops working. A small project that actually runs teaches me more than an ambitious one that never leaves the folder.</p>
     </div>
+
+    <div class="sub-head">things I got wrong</div>
+    <ul class="oops">
+      <li><b>Starting too big.</b> Projects that never left the folder taught me less than the small ones I finished.</li>
+      <li><b>Only reading about it.</b> A concept doesn't stick until I've written a broken version of it myself.</li>
+      <li><b>Naming files like <code>final_final_v2.js</code>.</b> Git exists. I'm learning to trust it.</li>
+    </ul>
   </section>
 
   <section id="games" class="sec rv">
-    <div class="sec-lbl">06 / games</div>
+    <div class="sec-lbl">05 / games</div>
     <h2 class="sec-title">Now with enemies</h2>
     <p class="sec-sub">The first build with a real game loop, live input and a difficulty curve that is not on my side.</p>
 
@@ -925,7 +847,7 @@ html[data-theme="flip"] .badge,html[data-theme="flip"] .orb,html[data-theme="fli
       <div class="proj feat">
         <div class="feat-l">
           <span class="kind">shipped · game</span>
-          <h3>🚀 Neon Drift</h3>
+          <h3>Neon Drift</h3>
           <p>A fast-paced neon arcade survival shooter. You pilot a glowing ship through waves of enemies, dodge incoming fire, and try to outlast formations that get faster and meaner every stage.</p>
           <p>Aim with the mouse, dash out of trouble, collect energy orbs, and pick upgrades between stages that shape your build. Runs are short, replayable, and dangerously easy to restart.</p>
           <div class="meta">
@@ -940,6 +862,8 @@ html[data-theme="flip"] .badge,html[data-theme="flip"] .orb,html[data-theme="fli
         </div>
 
         <div class="feat-r">
+          <!-- add a short screen recording at assets/neon-drift.gif -->
+          <figure class="shot"><img src="assets/neon-drift.gif" alt="Neon Drift gameplay" loading="lazy" onerror="this.closest('.shot').remove()"></figure>
           <div class="ctl">
             <div class="win-bar">
               <span class="tdot tr"></span><span class="tdot ty"></span><span class="tdot tg"></span>
@@ -966,7 +890,7 @@ html[data-theme="flip"] .badge,html[data-theme="flip"] .orb,html[data-theme="fli
   </section>
 
   <section id="work" class="sec rv">
-    <div class="sec-lbl">07 / projects</div>
+    <div class="sec-lbl">06 / projects</div>
     <h2 class="sec-title">Projects</h2>
     <p class="sec-sub">One agent that actually remembers things, and a shelf of small builds I made to learn the fundamentals.</p>
 
@@ -974,33 +898,46 @@ html[data-theme="flip"] .badge,html[data-theme="flip"] .orb,html[data-theme="fli
       <div class="proj feat agent">
         <div class="feat-l">
           <span class="kind">flagship · ai agent</span>
-          <h3>🧠 Deal Command Center</h3>
+          <h3>Deal Command Center</h3>
           <p>A memory-first sales copilot. It turns every call, email and negotiation into durable deal intelligence, so the next brief reflects the whole history instead of just the latest note.</p>
           <p>Every interaction is retained in a persistent Hindsight memory bank with timestamps and metadata, recalled before each answer, then reasoned over to produce an evidence-backed Deal Brief.</p>
           <div class="meta">
             <div>&gt; <span class="p">stack:</span> python · streamlit · hindsight · groq</div>
             <div>&gt; <span class="p">memory:</span> retain → recall → reflect, with a visible evidence trace</div>
-            <div>&gt; <span class="p">verdict:</span> <span class="v">"finally, an AI that remembers the last meeting"</span></div>
           </div>
           <div class="acts">
             <a href="https://github.com/Areeb-1357/hindsight-deal-command-center" target="_blank" rel="noopener">code ↗</a>
           </div>
+
+          <details class="case">
+            <summary>case study</summary>
+            <div>
+              <p><b>The problem.</b> Sales notes live in separate docs and threads, so each new call starts without the context of the last one.</p>
+              <p><b>The approach.</b> Retain every interaction with timestamps and metadata, recall the relevant history before answering, then reason over it to produce a brief that shows its evidence.</p>
+              <!-- EDIT ME: add what actually broke while building this, and what you'd redo.
+                   Example format:
+                   <p><b>What broke.</b> ...</p>
+                   <p><b>What I'd change.</b> ...</p> -->
+            </div>
+          </details>
         </div>
 
         <div class="feat-r">
+          <!-- add a screenshot at assets/deal-command-center.png -->
+          <figure class="shot"><img src="assets/deal-command-center.png" alt="Deal Command Center screenshot" loading="lazy" onerror="this.closest('.shot').remove()"></figure>
           <div class="ctl">
-  <div class="win-bar">
-    <span class="tdot tr"></span><span class="tdot ty"></span><span class="tdot tg"></span>
-    <em>ACME.timeline</em>
-  </div>
-  <div class="tl">
-    <div class="tl-i"><span class="d">sep 02</span><div><b>Discovery call</b><small>forecast pain, stakeholders mapped</small></div></div>
-    <div class="tl-i"><span class="d">sep 12</span><div><b>Technical validation</b><small>security review, competitor clarified</small></div></div>
-    <div class="tl-i"><span class="d">sep 19</span><div><b>Pricing &amp; procurement</b><small>budget ceiling surfaced</small></div></div>
-    <div class="tl-i"><span class="d">sep 26</span><div><b>Executive alignment</b><small>CRO conditional commitment</small></div></div>
-    <div class="tl-i goal"><span class="d">oct 30</span><div><b>Target close</b><small>$180K ARR · Atlas Revenue Intelligence</small></div></div>
-  </div>
-</div>
+            <div class="win-bar">
+              <span class="tdot tr"></span><span class="tdot ty"></span><span class="tdot tg"></span>
+              <em>ACME.timeline — demo data</em>
+            </div>
+            <div class="tl">
+              <div class="tl-i"><span class="d">sep 02</span><div><b>Discovery call</b><small>forecast pain, stakeholders mapped</small></div></div>
+              <div class="tl-i"><span class="d">sep 12</span><div><b>Technical validation</b><small>security review, competitor clarified</small></div></div>
+              <div class="tl-i"><span class="d">sep 19</span><div><b>Pricing &amp; procurement</b><small>budget ceiling surfaced</small></div></div>
+              <div class="tl-i"><span class="d">sep 26</span><div><b>Executive alignment</b><small>CRO conditional commitment</small></div></div>
+              <div class="tl-i goal"><span class="d">oct 30</span><div><b>Target close</b><small>$180K ARR · Atlas Revenue Intelligence</small></div></div>
+            </div>
+          </div>
           <div class="feat-tags">
             <span>persistent memory</span>
             <span>evidence trace</span>
@@ -1014,8 +951,9 @@ html[data-theme="flip"] .badge,html[data-theme="flip"] .orb,html[data-theme="fli
 
     <div class="work-grid">
       <div class="proj">
+        <figure class="shot"><img src="assets/expense-tracker.png" alt="Expense Tracker screenshot" loading="lazy" onerror="this.closest('.shot').remove()"></figure>
         <span class="kind">shipped</span>
-        <h3>💸 Expense Tracker</h3>
+        <h3>Expense Tracker</h3>
         <p>Command-line tool for logging daily spending — add entries, view a clean table, get a category-wise breakdown. No database, no frameworks, just Python and a CSV.</p>
         <div class="meta">
           <div>&gt; <span class="p">stack:</span> python · csv</div>
@@ -1028,12 +966,12 @@ html[data-theme="flip"] .badge,html[data-theme="flip"] .orb,html[data-theme="fli
       </div>
 
       <div class="proj">
+        <figure class="shot"><img src="assets/scientific-calculator.png" alt="Scientific Calculator screenshot" loading="lazy" onerror="this.closest('.shot').remove()"></figure>
         <span class="kind">shipped</span>
-        <h3>🧮 Scientific Calculator</h3>
+        <h3>Scientific Calculator</h3>
         <p>Trig, logs, exponents and the rest of the scientific lineup, in the browser. Plain HTML, CSS and JS — an exercise in DOM work and getting the function logic right.</p>
         <div class="meta">
           <div>&gt; <span class="p">stack:</span> html · css · js</div>
-          <div>&gt; <span class="p">verdict:</span> <span class="v">"finally, sin(x) without the TI-84"</span></div>
         </div>
         <div class="acts">
           <a href="https://areeb-1357.github.io/Scientific-Calculator-/" target="_blank" rel="noopener">live ↗</a>
@@ -1042,12 +980,12 @@ html[data-theme="flip"] .badge,html[data-theme="flip"] .orb,html[data-theme="fli
       </div>
 
       <div class="proj">
+        <figure class="shot"><img src="assets/quiz-quest.png" alt="Quiz Quest screenshot" loading="lazy" onerror="this.closest('.shot').remove()"></figure>
         <span class="kind">shipped</span>
-        <h3>🧠 Quiz Quest</h3>
+        <h3>Quiz Quest</h3>
         <p>Round-based browser quiz that tracks your score and shows a results screen with zero sympathy. Built to practise state handling and UI flow.</p>
         <div class="meta">
           <div>&gt; <span class="p">stack:</span> html · css · js</div>
-          <div>&gt; <span class="p">verdict:</span> <span class="v">"quiz 1, ego 0"</span></div>
         </div>
         <div class="acts">
           <a href="https://areeb-1357.github.io/Quiz-Quest/" target="_blank" rel="noopener">live ↗</a>
@@ -1057,11 +995,10 @@ html[data-theme="flip"] .badge,html[data-theme="flip"] .orb,html[data-theme="fli
 
       <div class="proj">
         <span class="kind">in progress</span>
-        <h3>🍳 Project #4 — still cooking</h3>
-        <p>0% deployed, 100% busy breaking things on localhost. Absorbing concepts, making bugs, fixing bugs. Real projects are being assembled right now.</p>
+        <h3>Project #4 — still cooking</h3>
+        <p>Not deployed yet, still breaking things on localhost. Absorbing concepts, making bugs, fixing bugs. Real projects are being assembled right now.</p>
         <div class="meta">
-          <div>&gt; <span class="p">compiling ideas</span> [<span class="g">17%</span>]</div>
-          <div>&gt; <span class="v">"check back soon, code is rendering"</span></div>
+          <div>&gt; <span class="v">"check back soon"</span></div>
         </div>
       </div>
     </div>
@@ -1069,7 +1006,7 @@ html[data-theme="flip"] .badge,html[data-theme="flip"] .orb,html[data-theme="fli
   </section>
 
   <section id="contact" class="sec rv">
-    <div class="sec-lbl">08 / contact</div>
+    <div class="sec-lbl">07 / contact</div>
     <h2 class="sec-title">Connect with me</h2>
     <div class="c-head">let's build something</div>
     <p class="c-note">Always up for learning, experimenting, collaborating, or just talking about cool tech.</p>
@@ -1080,6 +1017,10 @@ html[data-theme="flip"] .badge,html[data-theme="flip"] .orb,html[data-theme="fli
       </a>
       <a href="https://github.com/Areeb-1357" target="_blank" rel="noopener" class="card c-card">
         <div><small>github</small><strong>github.com/Areeb-1357</strong></div>
+        <span class="ar">↗</span>
+      </a>
+      <a href="assets/resume.pdf" target="_blank" rel="noopener" class="card c-card">
+        <div><small>resume</small><strong>download pdf</strong></div>
         <span class="ar">↗</span>
       </a>
     </div>
@@ -1175,48 +1116,6 @@ function initField(){
 }
 
 /* ============================================================
-   AMBIENT MATRIX RAIN — sparse, screen-blended, shares the main rAF loop
-   ============================================================ */
-function initMatrixBG(){
-  var cv = document.getElementById('matrixbg'); if (!cv) return;
-  var ctx = cv.getContext('2d');
-  var W = 0, H = 0, DPR = Math.min(window.devicePixelRatio || 1, 1);
-  var FS = 20, cols = 0, drops = [], tint = [];
-  var COL = ['#38bdf8','#a78bfa','#f472b6','#34d399'];
-  var CH = '01<>[]{}#$%&/\\アカサタナ';
-  function size(){
-    W = window.innerWidth; H = window.innerHeight;
-    cv.width = Math.round(W*DPR); cv.height = Math.round(H*DPR);
-    ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
-    cols = Math.max(1, Math.ceil(W/FS));
-    drops.length = 0; tint.length = 0;
-    for (var i = 0; i < cols; i++){ drops.push(Math.random()*-50); tint.push(COL[(Math.random()*COL.length)|0]); }
-    ctx.font = FS + 'px monospace';
-  }
-  size();
-  var rt; window.addEventListener('resize', function(){ clearTimeout(rt); rt = setTimeout(size, 180); });
-  var acc = 0;
-  addJob(function(now, dt){
-    acc += dt; if (acc < 200) return;
-    var frameDt = acc; acc = 0;
-    var fade = 1-Math.pow(1-.14, frameDt/58);
-    ctx.fillStyle = 'rgba(4,6,11,' + fade.toFixed(3) + ')';
-    ctx.fillRect(0, 0, W, H);
-    for (var i = 0; i < cols; i++){
-      var y = drops[i]*FS;
-      if (y > 0 && y < H+FS){
-        ctx.globalAlpha = .5;
-        ctx.fillStyle = tint[i];
-        ctx.fillText(CH[(Math.random()*CH.length)|0], i*FS, y);
-      }
-      if (y > H && Math.random() > .978) drops[i] = 0;
-      drops[i] += .5*(frameDt/52);
-    }
-    ctx.globalAlpha = 1;
-  });
-}
-
-/* ============================================================
    CLICK SPARKS
    ============================================================ */
 var sparks = [];
@@ -1231,7 +1130,7 @@ function initSparks(){
   }
   size();
   var rt; window.addEventListener('resize', function(){ clearTimeout(rt); rt = setTimeout(size, 180); });
-  var C = ['#38bdf8','#a78bfa','#f472b6','#34d399','#fbbf24'];
+  var C = ['#38bdf8','#a78bfa','#34d399'];
   window.burst = function(x, y, n){
     if (sparks.length > 170) return;
     for (var i = 0; i < n; i++) sparks.push({ x:x, y:y, s:Math.random()*2.2+1.4,
@@ -1272,13 +1171,13 @@ function initCursor(){
     if (Math.abs(mx-rx)<.2 && Math.abs(my-ry)<.2){ rx = mx; ry = my; cursorMoving = false; }
   });
   document.addEventListener('pointerover', function(e){
-    var hot = e.target.closest && e.target.closest('a,button,.card,.proj,.badge,.term,.mini,.step,.profile,.eg,.next');
+    var hot = e.target.closest && e.target.closest('a,button,summary,.card,.proj,.badge,.term,.step,.profile,.eg,.next');
     cRing.classList.toggle('hot', !!hot);
   }, { passive:true });
 }
 
 /* ============================================================
-   DRAG ANYTHING + SPRING BACK
+   DRAG (hero badges only) + SPRING BACK
    ============================================================ */
 var live = new Set(), LIM = 165;
 function rubber(v){
@@ -1382,17 +1281,17 @@ function initOrbit(){
   size();
   var rt; window.addEventListener('resize', function(){ clearTimeout(rt); rt = setTimeout(size, 180); });
 
-  var COL = ['#38bdf8','#a78bfa','#f472b6','#34d399'];
+  var COL = ['#38bdf8','#a78bfa'];
   function shell(n, rad, ci){
     var out = [];
     for (var i = 0; i < n; i++){
       var phi = Math.acos(-1 + (2*i)/n), th = Math.sqrt(n*Math.PI)*phi;
       out.push({ x: rad*Math.cos(th)*Math.sin(phi), y: rad*Math.sin(th)*Math.sin(phi), z: rad*Math.cos(phi),
-        c: (i+ci)%4, sx:0, sy:0, sz:0, sc:1, pulse:0 });
+        c: (i+ci)%2, sx:0, sy:0, sz:0, sc:1, pulse:0 });
     }
     return out;
   }
-  var inner = shell(24, .60, 0), outer = shell(34, 1.00, 2);
+  var inner = shell(24, .60, 0), outer = shell(34, 1.00, 1);
   var nodes = inner.concat(outer), edges = [];
   function link(set, off, max){
     for (var i = 0; i < set.length; i++) for (var j = i+1; j < set.length; j++){
@@ -1541,11 +1440,11 @@ function initOrbit(){
       if (i === 0) ctx.moveTo(trail[i].sx, trail[i].sy);
       else ctx.lineTo(trail[i].sx, trail[i].sy);
     }
-    ctx.strokeStyle = 'rgba(244,114,182,.35)'; ctx.stroke();
+    ctx.strokeStyle = 'rgba(167,139,250,.4)'; ctx.stroke();
     ctx.beginPath(); ctx.arc(trail[0].sx, trail[0].sy, 2.4, 0, 6.283);
-    ctx.fillStyle = '#f472b6'; ctx.fill();
+    ctx.fillStyle = '#a78bfa'; ctx.fill();
 
-    for (var c = 0; c < 4; c++){
+    for (var c = 0; c < 2; c++){
       ctx.beginPath();
       for (i = 0; i < nodes.length; i++){
         p = nodes[i]; if (p.c !== c) continue;
@@ -1600,7 +1499,7 @@ function initNet(){
   size();
   var rt; window.addEventListener('resize', function(){ clearTimeout(rt); rt = setTimeout(size, 180); });
 
-  var signals = [], COL = ['#38bdf8','#a78bfa','#f472b6','#34d399'];
+  var signals = [];
   function spawn(fromIndex){
     if (!cols.length || signals.length > 90) return;
     var path = [];
@@ -1608,8 +1507,7 @@ function initNet(){
     path.push(cols[0][i0]);
     for (var l = 1; l < cols.length; l++)
       path.push(cols[l][(Math.random()*cols[l].length)|0]);
-    signals.push({ path: path, seg: 0, t: 0, sp: .012 + Math.random()*.012,
-      c: COL[(Math.random()*COL.length)|0] });
+    signals.push({ path: path, seg: 0, t: 0, sp: .012 + Math.random()*.012 });
     path[0].act = 1;
     fired++;
     if (counter) counter.textContent = fired;
@@ -1647,7 +1545,6 @@ function initNet(){
 
     ctx.clearRect(0, 0, W, H);
 
-    /* edges — two buckets + a highlighted set for the hovered neuron */
     dim.length = 0; lit.length = 0; hot.length = 0;
     for (var i = 0; i < edges.length; i++){
       var e = edges[i];
@@ -1657,9 +1554,8 @@ function initNet(){
     }
     strokeEdges(dim, window.__flip ? 'rgba(30,41,59,.14)' : 'rgba(148,170,205,.09)');
     strokeEdges(lit, 'rgba(56,189,248,.16)');
-    strokeEdges(hot, 'rgba(244,114,182,.55)');
+    strokeEdges(hot, 'rgba(167,139,250,.6)');
 
-    /* signals */
     ctx.beginPath();
     for (i = signals.length-1; i >= 0; i--){
       var s = signals[i];
@@ -1676,10 +1572,8 @@ function initNet(){
     }
     ctx.fillStyle = window.__flip ? 'rgba(15,23,42,.85)' : 'rgba(226,240,255,.9)'; ctx.fill();
 
-    /* neurons */
     for (var l = 0; l < cols.length; l++){
       var color = l === 0 ? '#38bdf8' : (l === cols.length-1 ? '#34d399' : '#a78bfa');
-      /* glow ring for active ones */
       ctx.beginPath();
       for (i = 0; i < cols[l].length; i++){
         var nd = cols[l][i];
@@ -1730,7 +1624,7 @@ function initTerminal(){
     { cmd:'git log --oneline -3', out:[['a91c4e2  fix: the bug that fixed itself','dim'],['5f0b17d  feat: quiz quest keeps score now','dim'],['1c8ae04  chore: rename final_final_v2.js','dim']] },
     { cmd:'curl -s localhost:3000/status', out:[['{ "mini_projects": 3, "ai_agents": 1, "games": 1 }','out']] },
     { cmd:'net --forward', out:[['input → hidden → hidden → output','acc'],['activation passed in 4 layers','ok']] },
-    { cmd:'scan --self', out:[['1 open port found: the urge to know how things work','ok']] },
+    { cmd:'status --now', out:[['learning: AI/ML & web development','out'],['reading: how neural networks actually train','out'],['open to: collabs · study groups · cool ideas','ok']] },
     { cmd:'uptime', out:[['learning since day one · 0 days without a new rabbit hole','out']] },
     { cmd:'echo $NEXT', out:[['something is still cooking in the neural lab','acc']] },
     { cmd:'contact --show', out:[['areebbasheer17@gmail.com','ok'],['github.com/Areeb-1357','ok']] }
@@ -1852,17 +1746,8 @@ function initHeroGlow(){
 }
 
 /* ============================================================
-   REVEAL + METERS + COUNTERS
+   REVEAL + METERS
    ============================================================ */
-function countUp(el, to, ms){
-  var t0 = performance.now();
-  (function step(now){
-    var p = Math.min((now-t0)/ms, 1);
-    el.textContent = Math.round(to * (1-Math.pow(1-p, 3)));
-    if (p < 1) requestAnimationFrame(step);
-    else el.textContent = to;
-  })(t0);
-}
 function initReveal(){
   var t = document.querySelectorAll('.rv');
   function activate(sec){
@@ -1870,7 +1755,6 @@ function initReveal(){
   }
   if (RM || !('IntersectionObserver' in window)){
     t.forEach(function(e){ e.classList.add('on'); activate(e); });
-    document.querySelectorAll('[data-count]').forEach(function(b){ b.textContent = b.getAttribute('data-count'); });
     return;
   }
   var io = new IntersectionObserver(function(en){
@@ -1955,22 +1839,17 @@ function start(){
   initCursor();
   initHeroGlow();
   initField();
-  initMatrixBG();
   initSparks();
   initOrbit();
   initNet();
   initSpotlight();
   addJob(springJob);
 
-  if (DESKTOP)
-    document.querySelectorAll('.card,.proj,.badge,.term,.mini,.profile,.pill,.chip,.stat,.step,.next')
-      .forEach(makeDraggable);
+  /* only the hero badges are draggable */
+  if (DESKTOP) document.querySelectorAll('.badge').forEach(makeDraggable);
 
   document.querySelectorAll('#heroName .ln').forEach(function(el, i){
     setTimeout(function(){ scramble(el, el.getAttribute('data-text'), 620); }, i*160);
-  });
-  document.querySelectorAll('[data-count]').forEach(function(b, i){
-    setTimeout(function(){ countUp(b, parseInt(b.getAttribute('data-count'), 10), 900); }, 420 + i*110);
   });
 
   var orb = document.getElementById('orb');
@@ -1989,7 +1868,7 @@ function start(){
 }
 
 /* ============================================================
-   BOOT SEQUENCE
+   BOOT SEQUENCE — short, and only on the first visit per session
    ============================================================ */
 function matrixRain(){
   var cv = document.getElementById('rain');
@@ -1999,12 +1878,12 @@ function matrixRain(){
   cv.width = W; cv.height = H;
   var FS = 15, cols = Math.ceil(W/FS);
   var drops = [], tint = [];
-  var COL = ['#38bdf8','#a78bfa','#f472b6'];
+  var COL = ['#38bdf8','#a78bfa'];
   for (var i = 0; i < cols; i++){
     drops.push(Math.random() * -60);
     tint.push(COL[(Math.random()*COL.length)|0]);
   }
-  var chars = '01<>{}[]#$%&/\\AREEBAI01アカサタナ';
+  var chars = '01<>{}[]#$%&/\\AREEB';
   ctx.fillStyle = '#04060b'; ctx.fillRect(0, 0, W, H);
   ctx.font = FS + 'px monospace';
   var id = setInterval(function(){
@@ -2013,13 +1892,9 @@ function matrixRain(){
     for (var i = 0; i < cols; i++){
       var y = drops[i]*FS;
       if (y > 0){
-        var ch = chars[(Math.random()*chars.length)|0];
-        ctx.fillStyle = '#e9eff7';
-        ctx.globalAlpha = .55;
-        ctx.fillText(ch, i*FS, y);
         ctx.fillStyle = tint[i];
         ctx.globalAlpha = .8;
-        ctx.fillText(chars[(Math.random()*chars.length)|0], i*FS, y - FS);
+        ctx.fillText(chars[(Math.random()*chars.length)|0], i*FS, y);
       }
       if (y > H && Math.random() > .972) drops[i] = 0;
       drops[i]++;
@@ -2033,44 +1908,49 @@ var booted = false;
 function boot(){
   if (booted) return; booted = true;
   var loader = document.getElementById('loader');
-  if (RM){
+
+  var seen = false;
+  try { seen = sessionStorage.getItem('ab_boot') === '1'; } catch(e){}
+  if (RM || seen){
     if (loader) loader.remove();
     document.body.classList.remove('lock');
     start();
     return;
   }
+  try { sessionStorage.setItem('ab_boot', '1'); } catch(e){}
+
   var stopRain = matrixRain();
   var fill = document.getElementById('ldFill');
   var pct = document.getElementById('ldPct');
   var statusEl = document.getElementById('ldStatus');
   var logs = document.querySelectorAll('#ldLog div');
-  var STATUS = ['Initializing','Loading assets','Calibrating shaders','Almost there','Ready'];
+  var STATUS = ['Initializing','Loading','Almost there','Ready'];
   var li = 0;
 
   (function reveal(){
-    if (li < logs.length){ logs[li++].classList.add('on'); setTimeout(reveal, 90); }
+    if (li < logs.length){ logs[li++].classList.add('on'); setTimeout(reveal, 60); }
   })();
 
   var p = 0;
   var iv = setInterval(function(){
-    p += Math.random()*8 + 7;
+    p += Math.random()*10 + 24;
     if (p >= 100){
       p = 100; clearInterval(iv);
       setTimeout(function(){
         loader.classList.add('out');
         document.body.classList.remove('lock');
         start();
-        setTimeout(function(){ stopRain(); loader.remove(); }, 400);
-      }, 250);
+        setTimeout(function(){ stopRain(); loader.remove(); }, 300);
+      }, 120);
     }
     fill.style.width = p + '%';
     pct.textContent = Math.floor(p) + '%';
     statusEl.textContent = STATUS[Math.min(STATUS.length-1, Math.floor((p/100)*STATUS.length))];
-  }, 130);
+  }, 70);
 }
 
 window.addEventListener('load', boot);
-setTimeout(boot, 1500);
+setTimeout(boot, 2500);
 })();
 </script>
 </body>
